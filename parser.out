@@ -1,0 +1,4864 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    COLON
+    COMMENT
+    FOR_K
+    TO_K
+
+Grammar
+
+Rule 0     S' -> PROGRAM
+Rule 1     PROGRAM -> PROGRAM_K ID neural_program_id SEMICOLON VARS MODULES START
+Rule 2     neural_program_id -> EMPTY
+Rule 3     VARS -> VARS_K BLOCKSTART VARS_DECL BLOCKEND
+Rule 4     VAR -> ID
+Rule 5     VARS_DECL -> TYPE VAR neural_var_dec SEMICOLON RVARS_DECL
+Rule 6     VARS_DECL -> ARRAY_K TYPE VAR neural_array_dec LBRACE CONSTANT neural_constant neural_array_size RBRACE SEMICOLON RVARS_DECL
+Rule 7     neural_var_dec -> EMPTY
+Rule 8     neural_array_dec -> EMPTY
+Rule 9     neural_array_size -> EMPTY
+Rule 10    RVARS_DECL -> VARS_DECL
+Rule 11    RVARS_DECL -> EMPTY
+Rule 12    TYPE -> INT_K
+Rule 13    TYPE -> FLOAT_K
+Rule 14    TYPE -> STRING_K
+Rule 15    CONSTANT -> INT
+Rule 16    CONSTANT -> FLOAT
+Rule 17    CONSTANT -> STRING
+Rule 18    MODULES -> MODULES_RETURN
+Rule 19    MODULES -> MODULES_VOID
+Rule 20    MODULES -> EMPTY
+Rule 21    MODULES_RETURN -> FUNCTION_K TYPE ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+Rule 22    MODULES_VOID -> FUNCTION_K VOID_K ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+Rule 23    neural_modules -> EMPTY
+Rule 24    neural_modules_size -> EMPTY
+Rule 25    neural_endfunc -> EMPTY
+Rule 26    PARAMETERS -> TYPE VAR neural_parameters RPARAMETERS
+Rule 27    PARAMETERS -> EMPTY
+Rule 28    RPARAMETERS -> COMMA PARAMETERS
+Rule 29    RPARAMETERS -> EMPTY
+Rule 30    neural_parameters -> EMPTY
+Rule 31    FUNCTION_CALL -> ID neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN
+Rule 32    neural_fc_era -> EMPTY
+Rule 33    neural_fc_gosub -> EMPTY
+Rule 34    START -> MAIN_K neural_main LPAREN RPAREN BLOCKSTART BODY BLOCKEND
+Rule 35    neural_main -> EMPTY
+Rule 36    BODY -> STATEMENT RBODY
+Rule 37    BODY -> EMPTY
+Rule 38    RBODY -> BODY
+Rule 39    STATEMENT -> ASSIGN SEMICOLON
+Rule 40    STATEMENT -> RETURN
+Rule 41    STATEMENT -> READ SEMICOLON
+Rule 42    STATEMENT -> WRITE SEMICOLON
+Rule 43    STATEMENT -> IFELSE
+Rule 44    STATEMENT -> WHILE_STMT
+Rule 45    STATEMENT -> DO_WHILE
+Rule 46    STATEMENT -> FUNCTION_CALL SEMICOLON
+Rule 47    STATEMENT -> GRAPH SEMICOLON
+Rule 48    RSTATEMENT -> STATEMENT RSTATEMENT
+Rule 49    RSTATEMENT -> EMPTY
+Rule 50    WRITE -> WRITE_K LPAREN WRITE_LIST RPAREN
+Rule 51    WRITE_LIST -> R_ASSIGN RWRITE
+Rule 52    WRITE_LIST -> CONSTANT neural_constant RWRITE
+Rule 53    RWRITE -> neural_write COMMA WRITE_LIST
+Rule 54    RWRITE -> neural_write EMPTY
+Rule 55    GRAPH -> GRAPH_K LPAREN VAR neural_check_array COMMA VAR neural_check_array RPAREN neural_graph_quad
+Rule 56    neural_check_array -> EMPTY
+Rule 57    neural_graph_quad -> EMPTY
+Rule 58    MEAN -> MEAN_K LPAREN VAR neural_check_array RPAREN neural_mean_quad
+Rule 59    neural_mean_quad -> EMPTY
+Rule 60    MEDIAN -> MEDIAN_K LPAREN VAR neural_check_array RPAREN neural_median_quad
+Rule 61    neural_median_quad -> EMPTY
+Rule 62    MODE -> MODE_K LPAREN VAR neural_check_array RPAREN neural_mode_quad
+Rule 63    neural_mode_quad -> EMPTY
+Rule 64    neural_write -> EMPTY
+Rule 65    READ -> READ_K LPAREN ID_LIST RPAREN
+Rule 66    ID_LIST -> ID neural_read RID_LIST
+Rule 67    neural_read -> EMPTY
+Rule 68    RID_LIST -> COMMA ID_LIST
+Rule 69    RID_LIST -> EMPTY
+Rule 70    ASSIGN -> ARRAY EQUALS neural_equals R_ASSIGN neural_assign_quad
+Rule 71    ASSIGN -> VAR neural_assign EQUALS neural_equals R_ASSIGN neural_assign_quad
+Rule 72    R_ASSIGN -> EXPRESSION
+Rule 73    R_ASSIGN -> FUNCTION_CALL
+Rule 74    R_ASSIGN -> ARRAY
+Rule 75    R_ASSIGN -> MEAN
+Rule 76    R_ASSIGN -> MEDIAN
+Rule 77    R_ASSIGN -> MODE
+Rule 78    ARRAY -> VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE
+Rule 79    neural_array_pop -> EMPTY
+Rule 80    neural_array_ver -> EMPTY
+Rule 81    neural_assign -> EMPTY
+Rule 82    neural_equals -> EMPTY
+Rule 83    neural_assign_quad -> EMPTY
+Rule 84    RETURN -> RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON
+Rule 85    IFELSE -> IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end
+Rule 86    neural_ifelse -> EMPTY
+Rule 87    neural_ifelse_end -> EMPTY
+Rule 88    NELSE -> ELSE
+Rule 89    NELSE -> EMPTY
+Rule 90    ELSE -> neural_else ELSE_K BLOCKSTART RSTATEMENT BLOCKEND
+Rule 91    neural_else -> EMPTY
+Rule 92    WHILE_STMT -> WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end
+Rule 93    neural_while_push -> EMPTY
+Rule 94    neural_while -> EMPTY
+Rule 95    neural_while_end -> EMPTY
+Rule 96    DO_WHILE -> DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON
+Rule 97    neural_do_while -> EMPTY
+Rule 98    neural_do_while_end -> EMPTY
+Rule 99    EXPRESSION_LIST -> H_EXPRESSION neural_param_exp REXPRESSION_LIST
+Rule 100   REXPRESSION_LIST -> COMMA EXPRESSION_LIST
+Rule 101   REXPRESSION_LIST -> EMPTY
+Rule 102   neural_param_exp -> EMPTY
+Rule 103   H_EXPRESSION -> S_EXPRESSION H_REXPRESSION
+Rule 104   H_REXPRESSION -> OR neural_op H_EXPRESSION neural_hexpression
+Rule 105   H_REXPRESSION -> AND neural_op H_EXPRESSION
+Rule 106   H_REXPRESSION -> EMPTY
+Rule 107   neural_hexpression -> EMPTY
+Rule 108   S_EXPRESSION -> EXPRESSION S_REXPRESSION
+Rule 109   S_REXPRESSION -> GT neural_op S_EXPRESSION neural_sexpression
+Rule 110   S_REXPRESSION -> GTE neural_op S_EXPRESSION neural_sexpression
+Rule 111   S_REXPRESSION -> LT neural_op S_EXPRESSION neural_sexpression
+Rule 112   S_REXPRESSION -> LTE neural_op S_EXPRESSION neural_sexpression
+Rule 113   S_REXPRESSION -> DOUBLEEQUAL neural_op S_EXPRESSION neural_sexpression
+Rule 114   S_REXPRESSION -> NEQUAL neural_op S_EXPRESSION neural_sexpression
+Rule 115   S_REXPRESSION -> EMPTY
+Rule 116   neural_sexpression -> EMPTY
+Rule 117   EXPRESSION -> TERM neural_expression REXPRESSION
+Rule 118   neural_expression -> EMPTY
+Rule 119   REXPRESSION -> PLUS neural_op EXPRESSION
+Rule 120   REXPRESSION -> MINUS neural_op EXPRESSION
+Rule 121   REXPRESSION -> EMPTY
+Rule 122   neural_op -> EMPTY
+Rule 123   TERM -> FACTOR neural_term RTERM
+Rule 124   neural_term -> EMPTY
+Rule 125   RTERM -> TIMES neural_op TERM
+Rule 126   RTERM -> DIVIDE neural_op TERM
+Rule 127   RTERM -> EMPTY
+Rule 128   FACTOR -> ID neural_factor_id
+Rule 129   FACTOR -> CONSTANT neural_constant
+Rule 130   FACTOR -> LPAREN H_EXPRESSION RPAREN
+Rule 131   neural_constant -> EMPTY
+Rule 132   neural_factor_id -> EMPTY
+Rule 133   EMPTY -> <empty>
+
+Terminals, with rules where they appear
+
+AND                  : 105
+ARRAY_K              : 6
+BLOCKEND             : 3 21 22 34 85 90 92 96
+BLOCKSTART           : 3 21 22 34 85 90 92 96
+COLON                : 
+COMMA                : 28 53 55 68 100
+COMMENT              : 
+DIVIDE               : 126
+DOUBLEEQUAL          : 113
+DO_K                 : 96
+ELSE_K               : 90
+EQUALS               : 70 71
+FLOAT                : 16
+FLOAT_K              : 13
+FOR_K                : 
+FUNCTION_K           : 21 22
+GRAPH_K              : 55
+GT                   : 109
+GTE                  : 110
+ID                   : 1 4 21 22 31 66 128
+IF_K                 : 85
+INT                  : 15
+INT_K                : 12
+LBRACE               : 6 78
+LPAREN               : 21 22 31 34 50 55 58 60 62 65 84 85 92 96 130
+LT                   : 111
+LTE                  : 112
+MAIN_K               : 34
+MEAN_K               : 58
+MEDIAN_K             : 60
+MINUS                : 120
+MODE_K               : 62
+NEQUAL               : 114
+OR                   : 104
+PLUS                 : 119
+PROGRAM_K            : 1
+RBRACE               : 6 78
+READ_K               : 65
+RETURN_K             : 84
+RPAREN               : 21 22 31 34 50 55 58 60 62 65 84 85 92 96 130
+SEMICOLON            : 1 5 6 39 41 42 46 47 84 96
+STRING               : 17
+STRING_K             : 14
+TIMES                : 125
+TO_K                 : 
+VARS_K               : 3
+VOID_K               : 22
+WHILE_K              : 92 96
+WRITE_K              : 50
+error                : 
+
+Nonterminals, with rules where they appear
+
+ARRAY                : 70 74
+ASSIGN               : 39
+BODY                 : 21 22 34 38
+CONSTANT             : 6 52 129
+DO_WHILE             : 45
+ELSE                 : 88
+EMPTY                : 2 7 8 9 11 20 23 24 25 27 29 30 32 33 35 37 49 54 56 57 59 61 63 64 67 69 79 80 81 82 83 86 87 89 91 93 94 95 97 98 101 102 106 107 115 116 118 121 122 124 127 131 132
+EXPRESSION           : 72 78 84 108 119 120
+EXPRESSION_LIST      : 31 100
+FACTOR               : 123
+FUNCTION_CALL        : 46 73
+GRAPH                : 47
+H_EXPRESSION         : 85 92 96 99 104 105 130
+H_REXPRESSION        : 103
+ID_LIST              : 65 68
+IFELSE               : 43
+MEAN                 : 75
+MEDIAN               : 76
+MODE                 : 77
+MODULES              : 1 21 22
+MODULES_RETURN       : 18
+MODULES_VOID         : 19
+NELSE                : 85
+PARAMETERS           : 21 22 28
+PROGRAM              : 0
+RBODY                : 36
+READ                 : 41
+RETURN               : 40
+REXPRESSION          : 117
+REXPRESSION_LIST     : 99
+RID_LIST             : 66
+RPARAMETERS          : 26
+RSTATEMENT           : 48 85 90 92 96
+RTERM                : 123
+RVARS_DECL           : 5 6
+RWRITE               : 51 52
+R_ASSIGN             : 51 70 71
+START                : 1
+STATEMENT            : 36 48
+S_EXPRESSION         : 103 109 110 111 112 113 114
+S_REXPRESSION        : 108
+TERM                 : 117 125 126
+TYPE                 : 5 6 21 26
+VAR                  : 5 6 26 55 55 58 60 62 71 78
+VARS                 : 1 21 22
+VARS_DECL            : 3 10
+WHILE_STMT           : 44
+WRITE                : 42
+WRITE_LIST           : 50 53
+neural_array_dec     : 6
+neural_array_pop     : 78
+neural_array_size    : 6
+neural_array_ver     : 78
+neural_assign        : 71 78
+neural_assign_quad   : 70 71
+neural_check_array   : 55 55 58 60 62
+neural_constant      : 6 52 129
+neural_do_while      : 96
+neural_do_while_end  : 96
+neural_else          : 90
+neural_endfunc       : 21 22
+neural_equals        : 70 71
+neural_expression    : 117
+neural_factor_id     : 128
+neural_fc_era        : 31
+neural_fc_gosub      : 31
+neural_graph_quad    : 55
+neural_hexpression   : 104
+neural_ifelse        : 85
+neural_ifelse_end    : 85
+neural_main          : 34
+neural_mean_quad     : 58
+neural_median_quad   : 60
+neural_mode_quad     : 62
+neural_modules       : 21 22
+neural_modules_size  : 21 22
+neural_op            : 104 105 109 110 111 112 113 114 119 120 125 126
+neural_param_exp     : 99
+neural_parameters    : 26
+neural_program_id    : 1
+neural_read          : 66
+neural_sexpression   : 109 110 111 112 113 114
+neural_term          : 123
+neural_var_dec       : 5
+neural_while         : 92
+neural_while_end     : 92
+neural_while_push    : 92
+neural_write         : 53 54
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . PROGRAM
+    (1) PROGRAM -> . PROGRAM_K ID neural_program_id SEMICOLON VARS MODULES START
+
+    PROGRAM_K       shift and go to state 2
+
+    PROGRAM                        shift and go to state 1
+
+state 1
+
+    (0) S' -> PROGRAM .
+
+
+
+state 2
+
+    (1) PROGRAM -> PROGRAM_K . ID neural_program_id SEMICOLON VARS MODULES START
+
+    ID              shift and go to state 3
+
+
+state 3
+
+    (1) PROGRAM -> PROGRAM_K ID . neural_program_id SEMICOLON VARS MODULES START
+    (2) neural_program_id -> . EMPTY
+    (133) EMPTY -> .
+
+    SEMICOLON       reduce using rule 133 (EMPTY -> .)
+
+    neural_program_id              shift and go to state 4
+    EMPTY                          shift and go to state 5
+
+state 4
+
+    (1) PROGRAM -> PROGRAM_K ID neural_program_id . SEMICOLON VARS MODULES START
+
+    SEMICOLON       shift and go to state 6
+
+
+state 5
+
+    (2) neural_program_id -> EMPTY .
+
+    SEMICOLON       reduce using rule 2 (neural_program_id -> EMPTY .)
+
+
+state 6
+
+    (1) PROGRAM -> PROGRAM_K ID neural_program_id SEMICOLON . VARS MODULES START
+    (3) VARS -> . VARS_K BLOCKSTART VARS_DECL BLOCKEND
+
+    VARS_K          shift and go to state 8
+
+    VARS                           shift and go to state 7
+
+state 7
+
+    (1) PROGRAM -> PROGRAM_K ID neural_program_id SEMICOLON VARS . MODULES START
+    (18) MODULES -> . MODULES_RETURN
+    (19) MODULES -> . MODULES_VOID
+    (20) MODULES -> . EMPTY
+    (21) MODULES_RETURN -> . FUNCTION_K TYPE ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+    (22) MODULES_VOID -> . FUNCTION_K VOID_K ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+    (133) EMPTY -> .
+
+    FUNCTION_K      shift and go to state 13
+    MAIN_K          reduce using rule 133 (EMPTY -> .)
+
+    MODULES                        shift and go to state 9
+    MODULES_RETURN                 shift and go to state 10
+    MODULES_VOID                   shift and go to state 11
+    EMPTY                          shift and go to state 12
+
+state 8
+
+    (3) VARS -> VARS_K . BLOCKSTART VARS_DECL BLOCKEND
+
+    BLOCKSTART      shift and go to state 14
+
+
+state 9
+
+    (1) PROGRAM -> PROGRAM_K ID neural_program_id SEMICOLON VARS MODULES . START
+    (34) START -> . MAIN_K neural_main LPAREN RPAREN BLOCKSTART BODY BLOCKEND
+
+    MAIN_K          shift and go to state 16
+
+    START                          shift and go to state 15
+
+state 10
+
+    (18) MODULES -> MODULES_RETURN .
+
+    MAIN_K          reduce using rule 18 (MODULES -> MODULES_RETURN .)
+
+
+state 11
+
+    (19) MODULES -> MODULES_VOID .
+
+    MAIN_K          reduce using rule 19 (MODULES -> MODULES_VOID .)
+
+
+state 12
+
+    (20) MODULES -> EMPTY .
+
+    MAIN_K          reduce using rule 20 (MODULES -> EMPTY .)
+
+
+state 13
+
+    (21) MODULES_RETURN -> FUNCTION_K . TYPE ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+    (22) MODULES_VOID -> FUNCTION_K . VOID_K ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+    (12) TYPE -> . INT_K
+    (13) TYPE -> . FLOAT_K
+    (14) TYPE -> . STRING_K
+
+    VOID_K          shift and go to state 18
+    INT_K           shift and go to state 19
+    FLOAT_K         shift and go to state 20
+    STRING_K        shift and go to state 21
+
+    TYPE                           shift and go to state 17
+
+state 14
+
+    (3) VARS -> VARS_K BLOCKSTART . VARS_DECL BLOCKEND
+    (5) VARS_DECL -> . TYPE VAR neural_var_dec SEMICOLON RVARS_DECL
+    (6) VARS_DECL -> . ARRAY_K TYPE VAR neural_array_dec LBRACE CONSTANT neural_constant neural_array_size RBRACE SEMICOLON RVARS_DECL
+    (12) TYPE -> . INT_K
+    (13) TYPE -> . FLOAT_K
+    (14) TYPE -> . STRING_K
+
+    ARRAY_K         shift and go to state 24
+    INT_K           shift and go to state 19
+    FLOAT_K         shift and go to state 20
+    STRING_K        shift and go to state 21
+
+    VARS_DECL                      shift and go to state 22
+    TYPE                           shift and go to state 23
+
+state 15
+
+    (1) PROGRAM -> PROGRAM_K ID neural_program_id SEMICOLON VARS MODULES START .
+
+    $end            reduce using rule 1 (PROGRAM -> PROGRAM_K ID neural_program_id SEMICOLON VARS MODULES START .)
+
+
+state 16
+
+    (34) START -> MAIN_K . neural_main LPAREN RPAREN BLOCKSTART BODY BLOCKEND
+    (35) neural_main -> . EMPTY
+    (133) EMPTY -> .
+
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+
+    neural_main                    shift and go to state 25
+    EMPTY                          shift and go to state 26
+
+state 17
+
+    (21) MODULES_RETURN -> FUNCTION_K TYPE . ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+
+    ID              shift and go to state 27
+
+
+state 18
+
+    (22) MODULES_VOID -> FUNCTION_K VOID_K . ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+
+    ID              shift and go to state 28
+
+
+state 19
+
+    (12) TYPE -> INT_K .
+
+    ID              reduce using rule 12 (TYPE -> INT_K .)
+
+
+state 20
+
+    (13) TYPE -> FLOAT_K .
+
+    ID              reduce using rule 13 (TYPE -> FLOAT_K .)
+
+
+state 21
+
+    (14) TYPE -> STRING_K .
+
+    ID              reduce using rule 14 (TYPE -> STRING_K .)
+
+
+state 22
+
+    (3) VARS -> VARS_K BLOCKSTART VARS_DECL . BLOCKEND
+
+    BLOCKEND        shift and go to state 29
+
+
+state 23
+
+    (5) VARS_DECL -> TYPE . VAR neural_var_dec SEMICOLON RVARS_DECL
+    (4) VAR -> . ID
+
+    ID              shift and go to state 31
+
+    VAR                            shift and go to state 30
+
+state 24
+
+    (6) VARS_DECL -> ARRAY_K . TYPE VAR neural_array_dec LBRACE CONSTANT neural_constant neural_array_size RBRACE SEMICOLON RVARS_DECL
+    (12) TYPE -> . INT_K
+    (13) TYPE -> . FLOAT_K
+    (14) TYPE -> . STRING_K
+
+    INT_K           shift and go to state 19
+    FLOAT_K         shift and go to state 20
+    STRING_K        shift and go to state 21
+
+    TYPE                           shift and go to state 32
+
+state 25
+
+    (34) START -> MAIN_K neural_main . LPAREN RPAREN BLOCKSTART BODY BLOCKEND
+
+    LPAREN          shift and go to state 33
+
+
+state 26
+
+    (35) neural_main -> EMPTY .
+
+    LPAREN          reduce using rule 35 (neural_main -> EMPTY .)
+
+
+state 27
+
+    (21) MODULES_RETURN -> FUNCTION_K TYPE ID . neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+    (23) neural_modules -> . EMPTY
+    (133) EMPTY -> .
+
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+
+    neural_modules                 shift and go to state 34
+    EMPTY                          shift and go to state 35
+
+state 28
+
+    (22) MODULES_VOID -> FUNCTION_K VOID_K ID . neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+    (23) neural_modules -> . EMPTY
+    (133) EMPTY -> .
+
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+
+    neural_modules                 shift and go to state 36
+    EMPTY                          shift and go to state 35
+
+state 29
+
+    (3) VARS -> VARS_K BLOCKSTART VARS_DECL BLOCKEND .
+
+    FUNCTION_K      reduce using rule 3 (VARS -> VARS_K BLOCKSTART VARS_DECL BLOCKEND .)
+    MAIN_K          reduce using rule 3 (VARS -> VARS_K BLOCKSTART VARS_DECL BLOCKEND .)
+    RETURN_K        reduce using rule 3 (VARS -> VARS_K BLOCKSTART VARS_DECL BLOCKEND .)
+    READ_K          reduce using rule 3 (VARS -> VARS_K BLOCKSTART VARS_DECL BLOCKEND .)
+    WRITE_K         reduce using rule 3 (VARS -> VARS_K BLOCKSTART VARS_DECL BLOCKEND .)
+    IF_K            reduce using rule 3 (VARS -> VARS_K BLOCKSTART VARS_DECL BLOCKEND .)
+    WHILE_K         reduce using rule 3 (VARS -> VARS_K BLOCKSTART VARS_DECL BLOCKEND .)
+    DO_K            reduce using rule 3 (VARS -> VARS_K BLOCKSTART VARS_DECL BLOCKEND .)
+    ID              reduce using rule 3 (VARS -> VARS_K BLOCKSTART VARS_DECL BLOCKEND .)
+    GRAPH_K         reduce using rule 3 (VARS -> VARS_K BLOCKSTART VARS_DECL BLOCKEND .)
+    BLOCKEND        reduce using rule 3 (VARS -> VARS_K BLOCKSTART VARS_DECL BLOCKEND .)
+
+
+state 30
+
+    (5) VARS_DECL -> TYPE VAR . neural_var_dec SEMICOLON RVARS_DECL
+    (7) neural_var_dec -> . EMPTY
+    (133) EMPTY -> .
+
+    SEMICOLON       reduce using rule 133 (EMPTY -> .)
+
+    neural_var_dec                 shift and go to state 37
+    EMPTY                          shift and go to state 38
+
+state 31
+
+    (4) VAR -> ID .
+
+    SEMICOLON       reduce using rule 4 (VAR -> ID .)
+    LBRACE          reduce using rule 4 (VAR -> ID .)
+    COMMA           reduce using rule 4 (VAR -> ID .)
+    RPAREN          reduce using rule 4 (VAR -> ID .)
+
+
+state 32
+
+    (6) VARS_DECL -> ARRAY_K TYPE . VAR neural_array_dec LBRACE CONSTANT neural_constant neural_array_size RBRACE SEMICOLON RVARS_DECL
+    (4) VAR -> . ID
+
+    ID              shift and go to state 31
+
+    VAR                            shift and go to state 39
+
+state 33
+
+    (34) START -> MAIN_K neural_main LPAREN . RPAREN BLOCKSTART BODY BLOCKEND
+
+    RPAREN          shift and go to state 40
+
+
+state 34
+
+    (21) MODULES_RETURN -> FUNCTION_K TYPE ID neural_modules . LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+
+    LPAREN          shift and go to state 41
+
+
+state 35
+
+    (23) neural_modules -> EMPTY .
+
+    LPAREN          reduce using rule 23 (neural_modules -> EMPTY .)
+
+
+state 36
+
+    (22) MODULES_VOID -> FUNCTION_K VOID_K ID neural_modules . LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+
+    LPAREN          shift and go to state 42
+
+
+state 37
+
+    (5) VARS_DECL -> TYPE VAR neural_var_dec . SEMICOLON RVARS_DECL
+
+    SEMICOLON       shift and go to state 43
+
+
+state 38
+
+    (7) neural_var_dec -> EMPTY .
+
+    SEMICOLON       reduce using rule 7 (neural_var_dec -> EMPTY .)
+
+
+state 39
+
+    (6) VARS_DECL -> ARRAY_K TYPE VAR . neural_array_dec LBRACE CONSTANT neural_constant neural_array_size RBRACE SEMICOLON RVARS_DECL
+    (8) neural_array_dec -> . EMPTY
+    (133) EMPTY -> .
+
+    LBRACE          reduce using rule 133 (EMPTY -> .)
+
+    neural_array_dec               shift and go to state 44
+    EMPTY                          shift and go to state 45
+
+state 40
+
+    (34) START -> MAIN_K neural_main LPAREN RPAREN . BLOCKSTART BODY BLOCKEND
+
+    BLOCKSTART      shift and go to state 46
+
+
+state 41
+
+    (21) MODULES_RETURN -> FUNCTION_K TYPE ID neural_modules LPAREN . PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+    (26) PARAMETERS -> . TYPE VAR neural_parameters RPARAMETERS
+    (27) PARAMETERS -> . EMPTY
+    (12) TYPE -> . INT_K
+    (13) TYPE -> . FLOAT_K
+    (14) TYPE -> . STRING_K
+    (133) EMPTY -> .
+
+    INT_K           shift and go to state 19
+    FLOAT_K         shift and go to state 20
+    STRING_K        shift and go to state 21
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+
+    TYPE                           shift and go to state 47
+    PARAMETERS                     shift and go to state 48
+    EMPTY                          shift and go to state 49
+
+state 42
+
+    (22) MODULES_VOID -> FUNCTION_K VOID_K ID neural_modules LPAREN . PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+    (26) PARAMETERS -> . TYPE VAR neural_parameters RPARAMETERS
+    (27) PARAMETERS -> . EMPTY
+    (12) TYPE -> . INT_K
+    (13) TYPE -> . FLOAT_K
+    (14) TYPE -> . STRING_K
+    (133) EMPTY -> .
+
+    INT_K           shift and go to state 19
+    FLOAT_K         shift and go to state 20
+    STRING_K        shift and go to state 21
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+
+    PARAMETERS                     shift and go to state 50
+    TYPE                           shift and go to state 47
+    EMPTY                          shift and go to state 49
+
+state 43
+
+    (5) VARS_DECL -> TYPE VAR neural_var_dec SEMICOLON . RVARS_DECL
+    (10) RVARS_DECL -> . VARS_DECL
+    (11) RVARS_DECL -> . EMPTY
+    (5) VARS_DECL -> . TYPE VAR neural_var_dec SEMICOLON RVARS_DECL
+    (6) VARS_DECL -> . ARRAY_K TYPE VAR neural_array_dec LBRACE CONSTANT neural_constant neural_array_size RBRACE SEMICOLON RVARS_DECL
+    (133) EMPTY -> .
+    (12) TYPE -> . INT_K
+    (13) TYPE -> . FLOAT_K
+    (14) TYPE -> . STRING_K
+
+    ARRAY_K         shift and go to state 24
+    BLOCKEND        reduce using rule 133 (EMPTY -> .)
+    INT_K           shift and go to state 19
+    FLOAT_K         shift and go to state 20
+    STRING_K        shift and go to state 21
+
+    TYPE                           shift and go to state 23
+    RVARS_DECL                     shift and go to state 51
+    VARS_DECL                      shift and go to state 52
+    EMPTY                          shift and go to state 53
+
+state 44
+
+    (6) VARS_DECL -> ARRAY_K TYPE VAR neural_array_dec . LBRACE CONSTANT neural_constant neural_array_size RBRACE SEMICOLON RVARS_DECL
+
+    LBRACE          shift and go to state 54
+
+
+state 45
+
+    (8) neural_array_dec -> EMPTY .
+
+    LBRACE          reduce using rule 8 (neural_array_dec -> EMPTY .)
+
+
+state 46
+
+    (34) START -> MAIN_K neural_main LPAREN RPAREN BLOCKSTART . BODY BLOCKEND
+    (36) BODY -> . STATEMENT RBODY
+    (37) BODY -> . EMPTY
+    (39) STATEMENT -> . ASSIGN SEMICOLON
+    (40) STATEMENT -> . RETURN
+    (41) STATEMENT -> . READ SEMICOLON
+    (42) STATEMENT -> . WRITE SEMICOLON
+    (43) STATEMENT -> . IFELSE
+    (44) STATEMENT -> . WHILE_STMT
+    (45) STATEMENT -> . DO_WHILE
+    (46) STATEMENT -> . FUNCTION_CALL SEMICOLON
+    (47) STATEMENT -> . GRAPH SEMICOLON
+    (133) EMPTY -> .
+    (70) ASSIGN -> . ARRAY EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (71) ASSIGN -> . VAR neural_assign EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (84) RETURN -> . RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON
+    (65) READ -> . READ_K LPAREN ID_LIST RPAREN
+    (50) WRITE -> . WRITE_K LPAREN WRITE_LIST RPAREN
+    (85) IFELSE -> . IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end
+    (92) WHILE_STMT -> . WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end
+    (96) DO_WHILE -> . DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON
+    (31) FUNCTION_CALL -> . ID neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN
+    (55) GRAPH -> . GRAPH_K LPAREN VAR neural_check_array COMMA VAR neural_check_array RPAREN neural_graph_quad
+    (78) ARRAY -> . VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE
+    (4) VAR -> . ID
+
+    BLOCKEND        reduce using rule 133 (EMPTY -> .)
+    RETURN_K        shift and go to state 69
+    READ_K          shift and go to state 70
+    WRITE_K         shift and go to state 71
+    IF_K            shift and go to state 72
+    WHILE_K         shift and go to state 73
+    DO_K            shift and go to state 74
+    ID              shift and go to state 75
+    GRAPH_K         shift and go to state 76
+
+    BODY                           shift and go to state 55
+    STATEMENT                      shift and go to state 56
+    EMPTY                          shift and go to state 57
+    ASSIGN                         shift and go to state 58
+    RETURN                         shift and go to state 59
+    READ                           shift and go to state 60
+    WRITE                          shift and go to state 61
+    IFELSE                         shift and go to state 62
+    WHILE_STMT                     shift and go to state 63
+    DO_WHILE                       shift and go to state 64
+    FUNCTION_CALL                  shift and go to state 65
+    GRAPH                          shift and go to state 66
+    ARRAY                          shift and go to state 67
+    VAR                            shift and go to state 68
+
+state 47
+
+    (26) PARAMETERS -> TYPE . VAR neural_parameters RPARAMETERS
+    (4) VAR -> . ID
+
+    ID              shift and go to state 31
+
+    VAR                            shift and go to state 77
+
+state 48
+
+    (21) MODULES_RETURN -> FUNCTION_K TYPE ID neural_modules LPAREN PARAMETERS . RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+
+    RPAREN          shift and go to state 78
+
+
+state 49
+
+    (27) PARAMETERS -> EMPTY .
+
+    RPAREN          reduce using rule 27 (PARAMETERS -> EMPTY .)
+
+
+state 50
+
+    (22) MODULES_VOID -> FUNCTION_K VOID_K ID neural_modules LPAREN PARAMETERS . RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+
+    RPAREN          shift and go to state 79
+
+
+state 51
+
+    (5) VARS_DECL -> TYPE VAR neural_var_dec SEMICOLON RVARS_DECL .
+
+    BLOCKEND        reduce using rule 5 (VARS_DECL -> TYPE VAR neural_var_dec SEMICOLON RVARS_DECL .)
+
+
+state 52
+
+    (10) RVARS_DECL -> VARS_DECL .
+
+    BLOCKEND        reduce using rule 10 (RVARS_DECL -> VARS_DECL .)
+
+
+state 53
+
+    (11) RVARS_DECL -> EMPTY .
+
+    BLOCKEND        reduce using rule 11 (RVARS_DECL -> EMPTY .)
+
+
+state 54
+
+    (6) VARS_DECL -> ARRAY_K TYPE VAR neural_array_dec LBRACE . CONSTANT neural_constant neural_array_size RBRACE SEMICOLON RVARS_DECL
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    CONSTANT                       shift and go to state 80
+
+state 55
+
+    (34) START -> MAIN_K neural_main LPAREN RPAREN BLOCKSTART BODY . BLOCKEND
+
+    BLOCKEND        shift and go to state 84
+
+
+state 56
+
+    (36) BODY -> STATEMENT . RBODY
+    (38) RBODY -> . BODY
+    (36) BODY -> . STATEMENT RBODY
+    (37) BODY -> . EMPTY
+    (39) STATEMENT -> . ASSIGN SEMICOLON
+    (40) STATEMENT -> . RETURN
+    (41) STATEMENT -> . READ SEMICOLON
+    (42) STATEMENT -> . WRITE SEMICOLON
+    (43) STATEMENT -> . IFELSE
+    (44) STATEMENT -> . WHILE_STMT
+    (45) STATEMENT -> . DO_WHILE
+    (46) STATEMENT -> . FUNCTION_CALL SEMICOLON
+    (47) STATEMENT -> . GRAPH SEMICOLON
+    (133) EMPTY -> .
+    (70) ASSIGN -> . ARRAY EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (71) ASSIGN -> . VAR neural_assign EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (84) RETURN -> . RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON
+    (65) READ -> . READ_K LPAREN ID_LIST RPAREN
+    (50) WRITE -> . WRITE_K LPAREN WRITE_LIST RPAREN
+    (85) IFELSE -> . IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end
+    (92) WHILE_STMT -> . WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end
+    (96) DO_WHILE -> . DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON
+    (31) FUNCTION_CALL -> . ID neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN
+    (55) GRAPH -> . GRAPH_K LPAREN VAR neural_check_array COMMA VAR neural_check_array RPAREN neural_graph_quad
+    (78) ARRAY -> . VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE
+    (4) VAR -> . ID
+
+    BLOCKEND        reduce using rule 133 (EMPTY -> .)
+    RETURN_K        shift and go to state 69
+    READ_K          shift and go to state 70
+    WRITE_K         shift and go to state 71
+    IF_K            shift and go to state 72
+    WHILE_K         shift and go to state 73
+    DO_K            shift and go to state 74
+    ID              shift and go to state 75
+    GRAPH_K         shift and go to state 76
+
+    STATEMENT                      shift and go to state 56
+    RBODY                          shift and go to state 85
+    BODY                           shift and go to state 86
+    EMPTY                          shift and go to state 57
+    ASSIGN                         shift and go to state 58
+    RETURN                         shift and go to state 59
+    READ                           shift and go to state 60
+    WRITE                          shift and go to state 61
+    IFELSE                         shift and go to state 62
+    WHILE_STMT                     shift and go to state 63
+    DO_WHILE                       shift and go to state 64
+    FUNCTION_CALL                  shift and go to state 65
+    GRAPH                          shift and go to state 66
+    ARRAY                          shift and go to state 67
+    VAR                            shift and go to state 68
+
+state 57
+
+    (37) BODY -> EMPTY .
+
+    BLOCKEND        reduce using rule 37 (BODY -> EMPTY .)
+
+
+state 58
+
+    (39) STATEMENT -> ASSIGN . SEMICOLON
+
+    SEMICOLON       shift and go to state 87
+
+
+state 59
+
+    (40) STATEMENT -> RETURN .
+
+    RETURN_K        reduce using rule 40 (STATEMENT -> RETURN .)
+    READ_K          reduce using rule 40 (STATEMENT -> RETURN .)
+    WRITE_K         reduce using rule 40 (STATEMENT -> RETURN .)
+    IF_K            reduce using rule 40 (STATEMENT -> RETURN .)
+    WHILE_K         reduce using rule 40 (STATEMENT -> RETURN .)
+    DO_K            reduce using rule 40 (STATEMENT -> RETURN .)
+    ID              reduce using rule 40 (STATEMENT -> RETURN .)
+    GRAPH_K         reduce using rule 40 (STATEMENT -> RETURN .)
+    BLOCKEND        reduce using rule 40 (STATEMENT -> RETURN .)
+
+
+state 60
+
+    (41) STATEMENT -> READ . SEMICOLON
+
+    SEMICOLON       shift and go to state 88
+
+
+state 61
+
+    (42) STATEMENT -> WRITE . SEMICOLON
+
+    SEMICOLON       shift and go to state 89
+
+
+state 62
+
+    (43) STATEMENT -> IFELSE .
+
+    RETURN_K        reduce using rule 43 (STATEMENT -> IFELSE .)
+    READ_K          reduce using rule 43 (STATEMENT -> IFELSE .)
+    WRITE_K         reduce using rule 43 (STATEMENT -> IFELSE .)
+    IF_K            reduce using rule 43 (STATEMENT -> IFELSE .)
+    WHILE_K         reduce using rule 43 (STATEMENT -> IFELSE .)
+    DO_K            reduce using rule 43 (STATEMENT -> IFELSE .)
+    ID              reduce using rule 43 (STATEMENT -> IFELSE .)
+    GRAPH_K         reduce using rule 43 (STATEMENT -> IFELSE .)
+    BLOCKEND        reduce using rule 43 (STATEMENT -> IFELSE .)
+
+
+state 63
+
+    (44) STATEMENT -> WHILE_STMT .
+
+    RETURN_K        reduce using rule 44 (STATEMENT -> WHILE_STMT .)
+    READ_K          reduce using rule 44 (STATEMENT -> WHILE_STMT .)
+    WRITE_K         reduce using rule 44 (STATEMENT -> WHILE_STMT .)
+    IF_K            reduce using rule 44 (STATEMENT -> WHILE_STMT .)
+    WHILE_K         reduce using rule 44 (STATEMENT -> WHILE_STMT .)
+    DO_K            reduce using rule 44 (STATEMENT -> WHILE_STMT .)
+    ID              reduce using rule 44 (STATEMENT -> WHILE_STMT .)
+    GRAPH_K         reduce using rule 44 (STATEMENT -> WHILE_STMT .)
+    BLOCKEND        reduce using rule 44 (STATEMENT -> WHILE_STMT .)
+
+
+state 64
+
+    (45) STATEMENT -> DO_WHILE .
+
+    RETURN_K        reduce using rule 45 (STATEMENT -> DO_WHILE .)
+    READ_K          reduce using rule 45 (STATEMENT -> DO_WHILE .)
+    WRITE_K         reduce using rule 45 (STATEMENT -> DO_WHILE .)
+    IF_K            reduce using rule 45 (STATEMENT -> DO_WHILE .)
+    WHILE_K         reduce using rule 45 (STATEMENT -> DO_WHILE .)
+    DO_K            reduce using rule 45 (STATEMENT -> DO_WHILE .)
+    ID              reduce using rule 45 (STATEMENT -> DO_WHILE .)
+    GRAPH_K         reduce using rule 45 (STATEMENT -> DO_WHILE .)
+    BLOCKEND        reduce using rule 45 (STATEMENT -> DO_WHILE .)
+
+
+state 65
+
+    (46) STATEMENT -> FUNCTION_CALL . SEMICOLON
+
+    SEMICOLON       shift and go to state 90
+
+
+state 66
+
+    (47) STATEMENT -> GRAPH . SEMICOLON
+
+    SEMICOLON       shift and go to state 91
+
+
+state 67
+
+    (70) ASSIGN -> ARRAY . EQUALS neural_equals R_ASSIGN neural_assign_quad
+
+    EQUALS          shift and go to state 92
+
+
+state 68
+
+    (71) ASSIGN -> VAR . neural_assign EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (78) ARRAY -> VAR . neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE
+    (81) neural_assign -> . EMPTY
+    (133) EMPTY -> .
+
+    EQUALS          reduce using rule 133 (EMPTY -> .)
+    LBRACE          reduce using rule 133 (EMPTY -> .)
+
+    neural_assign                  shift and go to state 93
+    EMPTY                          shift and go to state 94
+
+state 69
+
+    (84) RETURN -> RETURN_K . LPAREN EXPRESSION RPAREN SEMICOLON
+
+    LPAREN          shift and go to state 95
+
+
+state 70
+
+    (65) READ -> READ_K . LPAREN ID_LIST RPAREN
+
+    LPAREN          shift and go to state 96
+
+
+state 71
+
+    (50) WRITE -> WRITE_K . LPAREN WRITE_LIST RPAREN
+
+    LPAREN          shift and go to state 97
+
+
+state 72
+
+    (85) IFELSE -> IF_K . LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end
+
+    LPAREN          shift and go to state 98
+
+
+state 73
+
+    (92) WHILE_STMT -> WHILE_K . neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end
+    (93) neural_while_push -> . EMPTY
+    (133) EMPTY -> .
+
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+
+    neural_while_push              shift and go to state 99
+    EMPTY                          shift and go to state 100
+
+state 74
+
+    (96) DO_WHILE -> DO_K . neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON
+    (97) neural_do_while -> . EMPTY
+    (133) EMPTY -> .
+
+    BLOCKSTART      reduce using rule 133 (EMPTY -> .)
+
+    neural_do_while                shift and go to state 101
+    EMPTY                          shift and go to state 102
+
+state 75
+
+    (31) FUNCTION_CALL -> ID . neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN
+    (4) VAR -> ID .
+    (32) neural_fc_era -> . EMPTY
+    (133) EMPTY -> .
+
+    EQUALS          reduce using rule 4 (VAR -> ID .)
+    LBRACE          reduce using rule 4 (VAR -> ID .)
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+
+    neural_fc_era                  shift and go to state 103
+    EMPTY                          shift and go to state 104
+
+state 76
+
+    (55) GRAPH -> GRAPH_K . LPAREN VAR neural_check_array COMMA VAR neural_check_array RPAREN neural_graph_quad
+
+    LPAREN          shift and go to state 105
+
+
+state 77
+
+    (26) PARAMETERS -> TYPE VAR . neural_parameters RPARAMETERS
+    (30) neural_parameters -> . EMPTY
+    (133) EMPTY -> .
+
+    COMMA           reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+
+    neural_parameters              shift and go to state 106
+    EMPTY                          shift and go to state 107
+
+state 78
+
+    (21) MODULES_RETURN -> FUNCTION_K TYPE ID neural_modules LPAREN PARAMETERS RPAREN . BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+
+    BLOCKSTART      shift and go to state 108
+
+
+state 79
+
+    (22) MODULES_VOID -> FUNCTION_K VOID_K ID neural_modules LPAREN PARAMETERS RPAREN . BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+
+    BLOCKSTART      shift and go to state 109
+
+
+state 80
+
+    (6) VARS_DECL -> ARRAY_K TYPE VAR neural_array_dec LBRACE CONSTANT . neural_constant neural_array_size RBRACE SEMICOLON RVARS_DECL
+    (131) neural_constant -> . EMPTY
+    (133) EMPTY -> .
+
+    RBRACE          reduce using rule 133 (EMPTY -> .)
+
+    neural_constant                shift and go to state 110
+    EMPTY                          shift and go to state 111
+
+state 81
+
+    (15) CONSTANT -> INT .
+
+    RBRACE          reduce using rule 15 (CONSTANT -> INT .)
+    TIMES           reduce using rule 15 (CONSTANT -> INT .)
+    DIVIDE          reduce using rule 15 (CONSTANT -> INT .)
+    PLUS            reduce using rule 15 (CONSTANT -> INT .)
+    MINUS           reduce using rule 15 (CONSTANT -> INT .)
+    RPAREN          reduce using rule 15 (CONSTANT -> INT .)
+    COMMA           reduce using rule 15 (CONSTANT -> INT .)
+    GT              reduce using rule 15 (CONSTANT -> INT .)
+    GTE             reduce using rule 15 (CONSTANT -> INT .)
+    LT              reduce using rule 15 (CONSTANT -> INT .)
+    LTE             reduce using rule 15 (CONSTANT -> INT .)
+    DOUBLEEQUAL     reduce using rule 15 (CONSTANT -> INT .)
+    NEQUAL          reduce using rule 15 (CONSTANT -> INT .)
+    OR              reduce using rule 15 (CONSTANT -> INT .)
+    AND             reduce using rule 15 (CONSTANT -> INT .)
+    SEMICOLON       reduce using rule 15 (CONSTANT -> INT .)
+
+
+state 82
+
+    (16) CONSTANT -> FLOAT .
+
+    RBRACE          reduce using rule 16 (CONSTANT -> FLOAT .)
+    TIMES           reduce using rule 16 (CONSTANT -> FLOAT .)
+    DIVIDE          reduce using rule 16 (CONSTANT -> FLOAT .)
+    PLUS            reduce using rule 16 (CONSTANT -> FLOAT .)
+    MINUS           reduce using rule 16 (CONSTANT -> FLOAT .)
+    RPAREN          reduce using rule 16 (CONSTANT -> FLOAT .)
+    COMMA           reduce using rule 16 (CONSTANT -> FLOAT .)
+    GT              reduce using rule 16 (CONSTANT -> FLOAT .)
+    GTE             reduce using rule 16 (CONSTANT -> FLOAT .)
+    LT              reduce using rule 16 (CONSTANT -> FLOAT .)
+    LTE             reduce using rule 16 (CONSTANT -> FLOAT .)
+    DOUBLEEQUAL     reduce using rule 16 (CONSTANT -> FLOAT .)
+    NEQUAL          reduce using rule 16 (CONSTANT -> FLOAT .)
+    OR              reduce using rule 16 (CONSTANT -> FLOAT .)
+    AND             reduce using rule 16 (CONSTANT -> FLOAT .)
+    SEMICOLON       reduce using rule 16 (CONSTANT -> FLOAT .)
+
+
+state 83
+
+    (17) CONSTANT -> STRING .
+
+    RBRACE          reduce using rule 17 (CONSTANT -> STRING .)
+    TIMES           reduce using rule 17 (CONSTANT -> STRING .)
+    DIVIDE          reduce using rule 17 (CONSTANT -> STRING .)
+    PLUS            reduce using rule 17 (CONSTANT -> STRING .)
+    MINUS           reduce using rule 17 (CONSTANT -> STRING .)
+    RPAREN          reduce using rule 17 (CONSTANT -> STRING .)
+    COMMA           reduce using rule 17 (CONSTANT -> STRING .)
+    GT              reduce using rule 17 (CONSTANT -> STRING .)
+    GTE             reduce using rule 17 (CONSTANT -> STRING .)
+    LT              reduce using rule 17 (CONSTANT -> STRING .)
+    LTE             reduce using rule 17 (CONSTANT -> STRING .)
+    DOUBLEEQUAL     reduce using rule 17 (CONSTANT -> STRING .)
+    NEQUAL          reduce using rule 17 (CONSTANT -> STRING .)
+    OR              reduce using rule 17 (CONSTANT -> STRING .)
+    AND             reduce using rule 17 (CONSTANT -> STRING .)
+    SEMICOLON       reduce using rule 17 (CONSTANT -> STRING .)
+
+
+state 84
+
+    (34) START -> MAIN_K neural_main LPAREN RPAREN BLOCKSTART BODY BLOCKEND .
+
+    $end            reduce using rule 34 (START -> MAIN_K neural_main LPAREN RPAREN BLOCKSTART BODY BLOCKEND .)
+
+
+state 85
+
+    (36) BODY -> STATEMENT RBODY .
+
+    BLOCKEND        reduce using rule 36 (BODY -> STATEMENT RBODY .)
+
+
+state 86
+
+    (38) RBODY -> BODY .
+
+    BLOCKEND        reduce using rule 38 (RBODY -> BODY .)
+
+
+state 87
+
+    (39) STATEMENT -> ASSIGN SEMICOLON .
+
+    RETURN_K        reduce using rule 39 (STATEMENT -> ASSIGN SEMICOLON .)
+    READ_K          reduce using rule 39 (STATEMENT -> ASSIGN SEMICOLON .)
+    WRITE_K         reduce using rule 39 (STATEMENT -> ASSIGN SEMICOLON .)
+    IF_K            reduce using rule 39 (STATEMENT -> ASSIGN SEMICOLON .)
+    WHILE_K         reduce using rule 39 (STATEMENT -> ASSIGN SEMICOLON .)
+    DO_K            reduce using rule 39 (STATEMENT -> ASSIGN SEMICOLON .)
+    ID              reduce using rule 39 (STATEMENT -> ASSIGN SEMICOLON .)
+    GRAPH_K         reduce using rule 39 (STATEMENT -> ASSIGN SEMICOLON .)
+    BLOCKEND        reduce using rule 39 (STATEMENT -> ASSIGN SEMICOLON .)
+
+
+state 88
+
+    (41) STATEMENT -> READ SEMICOLON .
+
+    RETURN_K        reduce using rule 41 (STATEMENT -> READ SEMICOLON .)
+    READ_K          reduce using rule 41 (STATEMENT -> READ SEMICOLON .)
+    WRITE_K         reduce using rule 41 (STATEMENT -> READ SEMICOLON .)
+    IF_K            reduce using rule 41 (STATEMENT -> READ SEMICOLON .)
+    WHILE_K         reduce using rule 41 (STATEMENT -> READ SEMICOLON .)
+    DO_K            reduce using rule 41 (STATEMENT -> READ SEMICOLON .)
+    ID              reduce using rule 41 (STATEMENT -> READ SEMICOLON .)
+    GRAPH_K         reduce using rule 41 (STATEMENT -> READ SEMICOLON .)
+    BLOCKEND        reduce using rule 41 (STATEMENT -> READ SEMICOLON .)
+
+
+state 89
+
+    (42) STATEMENT -> WRITE SEMICOLON .
+
+    RETURN_K        reduce using rule 42 (STATEMENT -> WRITE SEMICOLON .)
+    READ_K          reduce using rule 42 (STATEMENT -> WRITE SEMICOLON .)
+    WRITE_K         reduce using rule 42 (STATEMENT -> WRITE SEMICOLON .)
+    IF_K            reduce using rule 42 (STATEMENT -> WRITE SEMICOLON .)
+    WHILE_K         reduce using rule 42 (STATEMENT -> WRITE SEMICOLON .)
+    DO_K            reduce using rule 42 (STATEMENT -> WRITE SEMICOLON .)
+    ID              reduce using rule 42 (STATEMENT -> WRITE SEMICOLON .)
+    GRAPH_K         reduce using rule 42 (STATEMENT -> WRITE SEMICOLON .)
+    BLOCKEND        reduce using rule 42 (STATEMENT -> WRITE SEMICOLON .)
+
+
+state 90
+
+    (46) STATEMENT -> FUNCTION_CALL SEMICOLON .
+
+    RETURN_K        reduce using rule 46 (STATEMENT -> FUNCTION_CALL SEMICOLON .)
+    READ_K          reduce using rule 46 (STATEMENT -> FUNCTION_CALL SEMICOLON .)
+    WRITE_K         reduce using rule 46 (STATEMENT -> FUNCTION_CALL SEMICOLON .)
+    IF_K            reduce using rule 46 (STATEMENT -> FUNCTION_CALL SEMICOLON .)
+    WHILE_K         reduce using rule 46 (STATEMENT -> FUNCTION_CALL SEMICOLON .)
+    DO_K            reduce using rule 46 (STATEMENT -> FUNCTION_CALL SEMICOLON .)
+    ID              reduce using rule 46 (STATEMENT -> FUNCTION_CALL SEMICOLON .)
+    GRAPH_K         reduce using rule 46 (STATEMENT -> FUNCTION_CALL SEMICOLON .)
+    BLOCKEND        reduce using rule 46 (STATEMENT -> FUNCTION_CALL SEMICOLON .)
+
+
+state 91
+
+    (47) STATEMENT -> GRAPH SEMICOLON .
+
+    RETURN_K        reduce using rule 47 (STATEMENT -> GRAPH SEMICOLON .)
+    READ_K          reduce using rule 47 (STATEMENT -> GRAPH SEMICOLON .)
+    WRITE_K         reduce using rule 47 (STATEMENT -> GRAPH SEMICOLON .)
+    IF_K            reduce using rule 47 (STATEMENT -> GRAPH SEMICOLON .)
+    WHILE_K         reduce using rule 47 (STATEMENT -> GRAPH SEMICOLON .)
+    DO_K            reduce using rule 47 (STATEMENT -> GRAPH SEMICOLON .)
+    ID              reduce using rule 47 (STATEMENT -> GRAPH SEMICOLON .)
+    GRAPH_K         reduce using rule 47 (STATEMENT -> GRAPH SEMICOLON .)
+    BLOCKEND        reduce using rule 47 (STATEMENT -> GRAPH SEMICOLON .)
+
+
+state 92
+
+    (70) ASSIGN -> ARRAY EQUALS . neural_equals R_ASSIGN neural_assign_quad
+    (82) neural_equals -> . EMPTY
+    (133) EMPTY -> .
+
+    ID              reduce using rule 133 (EMPTY -> .)
+    MEAN_K          reduce using rule 133 (EMPTY -> .)
+    MEDIAN_K        reduce using rule 133 (EMPTY -> .)
+    MODE_K          reduce using rule 133 (EMPTY -> .)
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+    INT             reduce using rule 133 (EMPTY -> .)
+    FLOAT           reduce using rule 133 (EMPTY -> .)
+    STRING          reduce using rule 133 (EMPTY -> .)
+
+    neural_equals                  shift and go to state 112
+    EMPTY                          shift and go to state 113
+
+state 93
+
+    (71) ASSIGN -> VAR neural_assign . EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (78) ARRAY -> VAR neural_assign . LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE
+
+    EQUALS          shift and go to state 114
+    LBRACE          shift and go to state 115
+
+
+state 94
+
+    (81) neural_assign -> EMPTY .
+
+    EQUALS          reduce using rule 81 (neural_assign -> EMPTY .)
+    LBRACE          reduce using rule 81 (neural_assign -> EMPTY .)
+
+
+state 95
+
+    (84) RETURN -> RETURN_K LPAREN . EXPRESSION RPAREN SEMICOLON
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    EXPRESSION                     shift and go to state 117
+    TERM                           shift and go to state 118
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 96
+
+    (65) READ -> READ_K LPAREN . ID_LIST RPAREN
+    (66) ID_LIST -> . ID neural_read RID_LIST
+
+    ID              shift and go to state 123
+
+    ID_LIST                        shift and go to state 122
+
+state 97
+
+    (50) WRITE -> WRITE_K LPAREN . WRITE_LIST RPAREN
+    (51) WRITE_LIST -> . R_ASSIGN RWRITE
+    (52) WRITE_LIST -> . CONSTANT neural_constant RWRITE
+    (72) R_ASSIGN -> . EXPRESSION
+    (73) R_ASSIGN -> . FUNCTION_CALL
+    (74) R_ASSIGN -> . ARRAY
+    (75) R_ASSIGN -> . MEAN
+    (76) R_ASSIGN -> . MEDIAN
+    (77) R_ASSIGN -> . MODE
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (31) FUNCTION_CALL -> . ID neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN
+    (78) ARRAY -> . VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE
+    (58) MEAN -> . MEAN_K LPAREN VAR neural_check_array RPAREN neural_mean_quad
+    (60) MEDIAN -> . MEDIAN_K LPAREN VAR neural_check_array RPAREN neural_median_quad
+    (62) MODE -> . MODE_K LPAREN VAR neural_check_array RPAREN neural_mode_quad
+    (123) TERM -> . FACTOR neural_term RTERM
+    (4) VAR -> . ID
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+    ID              shift and go to state 133
+    MEAN_K          shift and go to state 135
+    MEDIAN_K        shift and go to state 136
+    MODE_K          shift and go to state 137
+    LPAREN          shift and go to state 116
+
+    WRITE_LIST                     shift and go to state 124
+    R_ASSIGN                       shift and go to state 125
+    CONSTANT                       shift and go to state 126
+    EXPRESSION                     shift and go to state 127
+    FUNCTION_CALL                  shift and go to state 128
+    ARRAY                          shift and go to state 129
+    MEAN                           shift and go to state 130
+    MEDIAN                         shift and go to state 131
+    MODE                           shift and go to state 132
+    TERM                           shift and go to state 118
+    VAR                            shift and go to state 134
+    FACTOR                         shift and go to state 119
+
+state 98
+
+    (85) IFELSE -> IF_K LPAREN . H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end
+    (103) H_EXPRESSION -> . S_EXPRESSION H_REXPRESSION
+    (108) S_EXPRESSION -> . EXPRESSION S_REXPRESSION
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    H_EXPRESSION                   shift and go to state 138
+    S_EXPRESSION                   shift and go to state 139
+    EXPRESSION                     shift and go to state 140
+    TERM                           shift and go to state 118
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 99
+
+    (92) WHILE_STMT -> WHILE_K neural_while_push . LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end
+
+    LPAREN          shift and go to state 141
+
+
+state 100
+
+    (93) neural_while_push -> EMPTY .
+
+    LPAREN          reduce using rule 93 (neural_while_push -> EMPTY .)
+
+
+state 101
+
+    (96) DO_WHILE -> DO_K neural_do_while . BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON
+
+    BLOCKSTART      shift and go to state 142
+
+
+state 102
+
+    (97) neural_do_while -> EMPTY .
+
+    BLOCKSTART      reduce using rule 97 (neural_do_while -> EMPTY .)
+
+
+state 103
+
+    (31) FUNCTION_CALL -> ID neural_fc_era . LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN
+
+    LPAREN          shift and go to state 143
+
+
+state 104
+
+    (32) neural_fc_era -> EMPTY .
+
+    LPAREN          reduce using rule 32 (neural_fc_era -> EMPTY .)
+
+
+state 105
+
+    (55) GRAPH -> GRAPH_K LPAREN . VAR neural_check_array COMMA VAR neural_check_array RPAREN neural_graph_quad
+    (4) VAR -> . ID
+
+    ID              shift and go to state 31
+
+    VAR                            shift and go to state 144
+
+state 106
+
+    (26) PARAMETERS -> TYPE VAR neural_parameters . RPARAMETERS
+    (28) RPARAMETERS -> . COMMA PARAMETERS
+    (29) RPARAMETERS -> . EMPTY
+    (133) EMPTY -> .
+
+    COMMA           shift and go to state 146
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+
+    RPARAMETERS                    shift and go to state 145
+    EMPTY                          shift and go to state 147
+
+state 107
+
+    (30) neural_parameters -> EMPTY .
+
+    COMMA           reduce using rule 30 (neural_parameters -> EMPTY .)
+    RPAREN          reduce using rule 30 (neural_parameters -> EMPTY .)
+
+
+state 108
+
+    (21) MODULES_RETURN -> FUNCTION_K TYPE ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART . VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+    (3) VARS -> . VARS_K BLOCKSTART VARS_DECL BLOCKEND
+
+    VARS_K          shift and go to state 8
+
+    VARS                           shift and go to state 148
+
+state 109
+
+    (22) MODULES_VOID -> FUNCTION_K VOID_K ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART . VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+    (3) VARS -> . VARS_K BLOCKSTART VARS_DECL BLOCKEND
+
+    VARS_K          shift and go to state 8
+
+    VARS                           shift and go to state 149
+
+state 110
+
+    (6) VARS_DECL -> ARRAY_K TYPE VAR neural_array_dec LBRACE CONSTANT neural_constant . neural_array_size RBRACE SEMICOLON RVARS_DECL
+    (9) neural_array_size -> . EMPTY
+    (133) EMPTY -> .
+
+    RBRACE          reduce using rule 133 (EMPTY -> .)
+
+    neural_array_size              shift and go to state 150
+    EMPTY                          shift and go to state 151
+
+state 111
+
+    (131) neural_constant -> EMPTY .
+
+    RBRACE          reduce using rule 131 (neural_constant -> EMPTY .)
+    TIMES           reduce using rule 131 (neural_constant -> EMPTY .)
+    DIVIDE          reduce using rule 131 (neural_constant -> EMPTY .)
+    PLUS            reduce using rule 131 (neural_constant -> EMPTY .)
+    MINUS           reduce using rule 131 (neural_constant -> EMPTY .)
+    RPAREN          reduce using rule 131 (neural_constant -> EMPTY .)
+    GT              reduce using rule 131 (neural_constant -> EMPTY .)
+    GTE             reduce using rule 131 (neural_constant -> EMPTY .)
+    LT              reduce using rule 131 (neural_constant -> EMPTY .)
+    LTE             reduce using rule 131 (neural_constant -> EMPTY .)
+    DOUBLEEQUAL     reduce using rule 131 (neural_constant -> EMPTY .)
+    NEQUAL          reduce using rule 131 (neural_constant -> EMPTY .)
+    OR              reduce using rule 131 (neural_constant -> EMPTY .)
+    AND             reduce using rule 131 (neural_constant -> EMPTY .)
+    SEMICOLON       reduce using rule 131 (neural_constant -> EMPTY .)
+    COMMA           reduce using rule 131 (neural_constant -> EMPTY .)
+
+
+state 112
+
+    (70) ASSIGN -> ARRAY EQUALS neural_equals . R_ASSIGN neural_assign_quad
+    (72) R_ASSIGN -> . EXPRESSION
+    (73) R_ASSIGN -> . FUNCTION_CALL
+    (74) R_ASSIGN -> . ARRAY
+    (75) R_ASSIGN -> . MEAN
+    (76) R_ASSIGN -> . MEDIAN
+    (77) R_ASSIGN -> . MODE
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (31) FUNCTION_CALL -> . ID neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN
+    (78) ARRAY -> . VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE
+    (58) MEAN -> . MEAN_K LPAREN VAR neural_check_array RPAREN neural_mean_quad
+    (60) MEDIAN -> . MEDIAN_K LPAREN VAR neural_check_array RPAREN neural_median_quad
+    (62) MODE -> . MODE_K LPAREN VAR neural_check_array RPAREN neural_mode_quad
+    (123) TERM -> . FACTOR neural_term RTERM
+    (4) VAR -> . ID
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 133
+    MEAN_K          shift and go to state 135
+    MEDIAN_K        shift and go to state 136
+    MODE_K          shift and go to state 137
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    ARRAY                          shift and go to state 129
+    R_ASSIGN                       shift and go to state 152
+    EXPRESSION                     shift and go to state 127
+    FUNCTION_CALL                  shift and go to state 128
+    MEAN                           shift and go to state 130
+    MEDIAN                         shift and go to state 131
+    MODE                           shift and go to state 132
+    TERM                           shift and go to state 118
+    VAR                            shift and go to state 134
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 113
+
+    (82) neural_equals -> EMPTY .
+
+    ID              reduce using rule 82 (neural_equals -> EMPTY .)
+    MEAN_K          reduce using rule 82 (neural_equals -> EMPTY .)
+    MEDIAN_K        reduce using rule 82 (neural_equals -> EMPTY .)
+    MODE_K          reduce using rule 82 (neural_equals -> EMPTY .)
+    LPAREN          reduce using rule 82 (neural_equals -> EMPTY .)
+    INT             reduce using rule 82 (neural_equals -> EMPTY .)
+    FLOAT           reduce using rule 82 (neural_equals -> EMPTY .)
+    STRING          reduce using rule 82 (neural_equals -> EMPTY .)
+
+
+state 114
+
+    (71) ASSIGN -> VAR neural_assign EQUALS . neural_equals R_ASSIGN neural_assign_quad
+    (82) neural_equals -> . EMPTY
+    (133) EMPTY -> .
+
+    ID              reduce using rule 133 (EMPTY -> .)
+    MEAN_K          reduce using rule 133 (EMPTY -> .)
+    MEDIAN_K        reduce using rule 133 (EMPTY -> .)
+    MODE_K          reduce using rule 133 (EMPTY -> .)
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+    INT             reduce using rule 133 (EMPTY -> .)
+    FLOAT           reduce using rule 133 (EMPTY -> .)
+    STRING          reduce using rule 133 (EMPTY -> .)
+
+    neural_equals                  shift and go to state 153
+    EMPTY                          shift and go to state 113
+
+state 115
+
+    (78) ARRAY -> VAR neural_assign LBRACE . neural_array_pop EXPRESSION neural_array_ver RBRACE
+    (79) neural_array_pop -> . EMPTY
+    (133) EMPTY -> .
+
+    ID              reduce using rule 133 (EMPTY -> .)
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+    INT             reduce using rule 133 (EMPTY -> .)
+    FLOAT           reduce using rule 133 (EMPTY -> .)
+    STRING          reduce using rule 133 (EMPTY -> .)
+
+    neural_array_pop               shift and go to state 154
+    EMPTY                          shift and go to state 155
+
+state 116
+
+    (130) FACTOR -> LPAREN . H_EXPRESSION RPAREN
+    (103) H_EXPRESSION -> . S_EXPRESSION H_REXPRESSION
+    (108) S_EXPRESSION -> . EXPRESSION S_REXPRESSION
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    H_EXPRESSION                   shift and go to state 156
+    S_EXPRESSION                   shift and go to state 139
+    EXPRESSION                     shift and go to state 140
+    TERM                           shift and go to state 118
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 117
+
+    (84) RETURN -> RETURN_K LPAREN EXPRESSION . RPAREN SEMICOLON
+
+    RPAREN          shift and go to state 157
+
+
+state 118
+
+    (117) EXPRESSION -> TERM . neural_expression REXPRESSION
+    (118) neural_expression -> . EMPTY
+    (133) EMPTY -> .
+
+    PLUS            reduce using rule 133 (EMPTY -> .)
+    MINUS           reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    COMMA           reduce using rule 133 (EMPTY -> .)
+    GT              reduce using rule 133 (EMPTY -> .)
+    GTE             reduce using rule 133 (EMPTY -> .)
+    LT              reduce using rule 133 (EMPTY -> .)
+    LTE             reduce using rule 133 (EMPTY -> .)
+    DOUBLEEQUAL     reduce using rule 133 (EMPTY -> .)
+    NEQUAL          reduce using rule 133 (EMPTY -> .)
+    OR              reduce using rule 133 (EMPTY -> .)
+    AND             reduce using rule 133 (EMPTY -> .)
+    SEMICOLON       reduce using rule 133 (EMPTY -> .)
+    RBRACE          reduce using rule 133 (EMPTY -> .)
+
+    neural_expression              shift and go to state 158
+    EMPTY                          shift and go to state 159
+
+state 119
+
+    (123) TERM -> FACTOR . neural_term RTERM
+    (124) neural_term -> . EMPTY
+    (133) EMPTY -> .
+
+    TIMES           reduce using rule 133 (EMPTY -> .)
+    DIVIDE          reduce using rule 133 (EMPTY -> .)
+    PLUS            reduce using rule 133 (EMPTY -> .)
+    MINUS           reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    COMMA           reduce using rule 133 (EMPTY -> .)
+    GT              reduce using rule 133 (EMPTY -> .)
+    GTE             reduce using rule 133 (EMPTY -> .)
+    LT              reduce using rule 133 (EMPTY -> .)
+    LTE             reduce using rule 133 (EMPTY -> .)
+    DOUBLEEQUAL     reduce using rule 133 (EMPTY -> .)
+    NEQUAL          reduce using rule 133 (EMPTY -> .)
+    OR              reduce using rule 133 (EMPTY -> .)
+    AND             reduce using rule 133 (EMPTY -> .)
+    SEMICOLON       reduce using rule 133 (EMPTY -> .)
+    RBRACE          reduce using rule 133 (EMPTY -> .)
+
+    neural_term                    shift and go to state 160
+    EMPTY                          shift and go to state 161
+
+state 120
+
+    (128) FACTOR -> ID . neural_factor_id
+    (132) neural_factor_id -> . EMPTY
+    (133) EMPTY -> .
+
+    TIMES           reduce using rule 133 (EMPTY -> .)
+    DIVIDE          reduce using rule 133 (EMPTY -> .)
+    PLUS            reduce using rule 133 (EMPTY -> .)
+    MINUS           reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    GT              reduce using rule 133 (EMPTY -> .)
+    GTE             reduce using rule 133 (EMPTY -> .)
+    LT              reduce using rule 133 (EMPTY -> .)
+    LTE             reduce using rule 133 (EMPTY -> .)
+    DOUBLEEQUAL     reduce using rule 133 (EMPTY -> .)
+    NEQUAL          reduce using rule 133 (EMPTY -> .)
+    OR              reduce using rule 133 (EMPTY -> .)
+    AND             reduce using rule 133 (EMPTY -> .)
+    COMMA           reduce using rule 133 (EMPTY -> .)
+    RBRACE          reduce using rule 133 (EMPTY -> .)
+    SEMICOLON       reduce using rule 133 (EMPTY -> .)
+
+    neural_factor_id               shift and go to state 162
+    EMPTY                          shift and go to state 163
+
+state 121
+
+    (129) FACTOR -> CONSTANT . neural_constant
+    (131) neural_constant -> . EMPTY
+    (133) EMPTY -> .
+
+    TIMES           reduce using rule 133 (EMPTY -> .)
+    DIVIDE          reduce using rule 133 (EMPTY -> .)
+    PLUS            reduce using rule 133 (EMPTY -> .)
+    MINUS           reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    GT              reduce using rule 133 (EMPTY -> .)
+    GTE             reduce using rule 133 (EMPTY -> .)
+    LT              reduce using rule 133 (EMPTY -> .)
+    LTE             reduce using rule 133 (EMPTY -> .)
+    DOUBLEEQUAL     reduce using rule 133 (EMPTY -> .)
+    NEQUAL          reduce using rule 133 (EMPTY -> .)
+    OR              reduce using rule 133 (EMPTY -> .)
+    AND             reduce using rule 133 (EMPTY -> .)
+    SEMICOLON       reduce using rule 133 (EMPTY -> .)
+    COMMA           reduce using rule 133 (EMPTY -> .)
+    RBRACE          reduce using rule 133 (EMPTY -> .)
+
+    neural_constant                shift and go to state 164
+    EMPTY                          shift and go to state 111
+
+state 122
+
+    (65) READ -> READ_K LPAREN ID_LIST . RPAREN
+
+    RPAREN          shift and go to state 165
+
+
+state 123
+
+    (66) ID_LIST -> ID . neural_read RID_LIST
+    (67) neural_read -> . EMPTY
+    (133) EMPTY -> .
+
+    COMMA           reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+
+    neural_read                    shift and go to state 166
+    EMPTY                          shift and go to state 167
+
+state 124
+
+    (50) WRITE -> WRITE_K LPAREN WRITE_LIST . RPAREN
+
+    RPAREN          shift and go to state 168
+
+
+state 125
+
+    (51) WRITE_LIST -> R_ASSIGN . RWRITE
+    (53) RWRITE -> . neural_write COMMA WRITE_LIST
+    (54) RWRITE -> . neural_write EMPTY
+    (64) neural_write -> . EMPTY
+    (133) EMPTY -> .
+
+    COMMA           reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+
+    RWRITE                         shift and go to state 169
+    neural_write                   shift and go to state 170
+    EMPTY                          shift and go to state 171
+
+state 126
+
+    (52) WRITE_LIST -> CONSTANT . neural_constant RWRITE
+    (129) FACTOR -> CONSTANT . neural_constant
+    (131) neural_constant -> . EMPTY
+    (133) EMPTY -> .
+
+    COMMA           reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    TIMES           reduce using rule 133 (EMPTY -> .)
+    DIVIDE          reduce using rule 133 (EMPTY -> .)
+    PLUS            reduce using rule 133 (EMPTY -> .)
+    MINUS           reduce using rule 133 (EMPTY -> .)
+
+    neural_constant                shift and go to state 172
+    EMPTY                          shift and go to state 111
+
+state 127
+
+    (72) R_ASSIGN -> EXPRESSION .
+
+    COMMA           reduce using rule 72 (R_ASSIGN -> EXPRESSION .)
+    RPAREN          reduce using rule 72 (R_ASSIGN -> EXPRESSION .)
+    SEMICOLON       reduce using rule 72 (R_ASSIGN -> EXPRESSION .)
+
+
+state 128
+
+    (73) R_ASSIGN -> FUNCTION_CALL .
+
+    COMMA           reduce using rule 73 (R_ASSIGN -> FUNCTION_CALL .)
+    RPAREN          reduce using rule 73 (R_ASSIGN -> FUNCTION_CALL .)
+    SEMICOLON       reduce using rule 73 (R_ASSIGN -> FUNCTION_CALL .)
+
+
+state 129
+
+    (74) R_ASSIGN -> ARRAY .
+
+    COMMA           reduce using rule 74 (R_ASSIGN -> ARRAY .)
+    RPAREN          reduce using rule 74 (R_ASSIGN -> ARRAY .)
+    SEMICOLON       reduce using rule 74 (R_ASSIGN -> ARRAY .)
+
+
+state 130
+
+    (75) R_ASSIGN -> MEAN .
+
+    COMMA           reduce using rule 75 (R_ASSIGN -> MEAN .)
+    RPAREN          reduce using rule 75 (R_ASSIGN -> MEAN .)
+    SEMICOLON       reduce using rule 75 (R_ASSIGN -> MEAN .)
+
+
+state 131
+
+    (76) R_ASSIGN -> MEDIAN .
+
+    COMMA           reduce using rule 76 (R_ASSIGN -> MEDIAN .)
+    RPAREN          reduce using rule 76 (R_ASSIGN -> MEDIAN .)
+    SEMICOLON       reduce using rule 76 (R_ASSIGN -> MEDIAN .)
+
+
+state 132
+
+    (77) R_ASSIGN -> MODE .
+
+    COMMA           reduce using rule 77 (R_ASSIGN -> MODE .)
+    RPAREN          reduce using rule 77 (R_ASSIGN -> MODE .)
+    SEMICOLON       reduce using rule 77 (R_ASSIGN -> MODE .)
+
+
+state 133
+
+    (31) FUNCTION_CALL -> ID . neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN
+    (4) VAR -> ID .
+    (128) FACTOR -> ID . neural_factor_id
+    (32) neural_fc_era -> . EMPTY
+    (132) neural_factor_id -> . EMPTY
+    (133) EMPTY -> .
+
+    LBRACE          reduce using rule 4 (VAR -> ID .)
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+    TIMES           reduce using rule 133 (EMPTY -> .)
+    DIVIDE          reduce using rule 133 (EMPTY -> .)
+    PLUS            reduce using rule 133 (EMPTY -> .)
+    MINUS           reduce using rule 133 (EMPTY -> .)
+    COMMA           reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    SEMICOLON       reduce using rule 133 (EMPTY -> .)
+
+    neural_fc_era                  shift and go to state 103
+    neural_factor_id               shift and go to state 162
+    EMPTY                          shift and go to state 173
+
+state 134
+
+    (78) ARRAY -> VAR . neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE
+    (81) neural_assign -> . EMPTY
+    (133) EMPTY -> .
+
+    LBRACE          reduce using rule 133 (EMPTY -> .)
+
+    neural_assign                  shift and go to state 174
+    EMPTY                          shift and go to state 94
+
+state 135
+
+    (58) MEAN -> MEAN_K . LPAREN VAR neural_check_array RPAREN neural_mean_quad
+
+    LPAREN          shift and go to state 175
+
+
+state 136
+
+    (60) MEDIAN -> MEDIAN_K . LPAREN VAR neural_check_array RPAREN neural_median_quad
+
+    LPAREN          shift and go to state 176
+
+
+state 137
+
+    (62) MODE -> MODE_K . LPAREN VAR neural_check_array RPAREN neural_mode_quad
+
+    LPAREN          shift and go to state 177
+
+
+state 138
+
+    (85) IFELSE -> IF_K LPAREN H_EXPRESSION . RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end
+
+    RPAREN          shift and go to state 178
+
+
+state 139
+
+    (103) H_EXPRESSION -> S_EXPRESSION . H_REXPRESSION
+    (104) H_REXPRESSION -> . OR neural_op H_EXPRESSION neural_hexpression
+    (105) H_REXPRESSION -> . AND neural_op H_EXPRESSION
+    (106) H_REXPRESSION -> . EMPTY
+    (133) EMPTY -> .
+
+    OR              shift and go to state 180
+    AND             shift and go to state 181
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    COMMA           reduce using rule 133 (EMPTY -> .)
+
+    H_REXPRESSION                  shift and go to state 179
+    EMPTY                          shift and go to state 182
+
+state 140
+
+    (108) S_EXPRESSION -> EXPRESSION . S_REXPRESSION
+    (109) S_REXPRESSION -> . GT neural_op S_EXPRESSION neural_sexpression
+    (110) S_REXPRESSION -> . GTE neural_op S_EXPRESSION neural_sexpression
+    (111) S_REXPRESSION -> . LT neural_op S_EXPRESSION neural_sexpression
+    (112) S_REXPRESSION -> . LTE neural_op S_EXPRESSION neural_sexpression
+    (113) S_REXPRESSION -> . DOUBLEEQUAL neural_op S_EXPRESSION neural_sexpression
+    (114) S_REXPRESSION -> . NEQUAL neural_op S_EXPRESSION neural_sexpression
+    (115) S_REXPRESSION -> . EMPTY
+    (133) EMPTY -> .
+
+    GT              shift and go to state 184
+    GTE             shift and go to state 185
+    LT              shift and go to state 186
+    LTE             shift and go to state 187
+    DOUBLEEQUAL     shift and go to state 188
+    NEQUAL          shift and go to state 189
+    OR              reduce using rule 133 (EMPTY -> .)
+    AND             reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    COMMA           reduce using rule 133 (EMPTY -> .)
+
+    S_REXPRESSION                  shift and go to state 183
+    EMPTY                          shift and go to state 190
+
+state 141
+
+    (92) WHILE_STMT -> WHILE_K neural_while_push LPAREN . H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end
+    (103) H_EXPRESSION -> . S_EXPRESSION H_REXPRESSION
+    (108) S_EXPRESSION -> . EXPRESSION S_REXPRESSION
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    H_EXPRESSION                   shift and go to state 191
+    S_EXPRESSION                   shift and go to state 139
+    EXPRESSION                     shift and go to state 140
+    TERM                           shift and go to state 118
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 142
+
+    (96) DO_WHILE -> DO_K neural_do_while BLOCKSTART . RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON
+    (48) RSTATEMENT -> . STATEMENT RSTATEMENT
+    (49) RSTATEMENT -> . EMPTY
+    (39) STATEMENT -> . ASSIGN SEMICOLON
+    (40) STATEMENT -> . RETURN
+    (41) STATEMENT -> . READ SEMICOLON
+    (42) STATEMENT -> . WRITE SEMICOLON
+    (43) STATEMENT -> . IFELSE
+    (44) STATEMENT -> . WHILE_STMT
+    (45) STATEMENT -> . DO_WHILE
+    (46) STATEMENT -> . FUNCTION_CALL SEMICOLON
+    (47) STATEMENT -> . GRAPH SEMICOLON
+    (133) EMPTY -> .
+    (70) ASSIGN -> . ARRAY EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (71) ASSIGN -> . VAR neural_assign EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (84) RETURN -> . RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON
+    (65) READ -> . READ_K LPAREN ID_LIST RPAREN
+    (50) WRITE -> . WRITE_K LPAREN WRITE_LIST RPAREN
+    (85) IFELSE -> . IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end
+    (92) WHILE_STMT -> . WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end
+    (96) DO_WHILE -> . DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON
+    (31) FUNCTION_CALL -> . ID neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN
+    (55) GRAPH -> . GRAPH_K LPAREN VAR neural_check_array COMMA VAR neural_check_array RPAREN neural_graph_quad
+    (78) ARRAY -> . VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE
+    (4) VAR -> . ID
+
+    BLOCKEND        reduce using rule 133 (EMPTY -> .)
+    RETURN_K        shift and go to state 69
+    READ_K          shift and go to state 70
+    WRITE_K         shift and go to state 71
+    IF_K            shift and go to state 72
+    WHILE_K         shift and go to state 73
+    DO_K            shift and go to state 74
+    ID              shift and go to state 75
+    GRAPH_K         shift and go to state 76
+
+    RSTATEMENT                     shift and go to state 192
+    STATEMENT                      shift and go to state 193
+    EMPTY                          shift and go to state 194
+    ASSIGN                         shift and go to state 58
+    RETURN                         shift and go to state 59
+    READ                           shift and go to state 60
+    WRITE                          shift and go to state 61
+    IFELSE                         shift and go to state 62
+    WHILE_STMT                     shift and go to state 63
+    DO_WHILE                       shift and go to state 64
+    FUNCTION_CALL                  shift and go to state 65
+    GRAPH                          shift and go to state 66
+    ARRAY                          shift and go to state 67
+    VAR                            shift and go to state 68
+
+state 143
+
+    (31) FUNCTION_CALL -> ID neural_fc_era LPAREN . EXPRESSION_LIST neural_fc_gosub RPAREN
+    (99) EXPRESSION_LIST -> . H_EXPRESSION neural_param_exp REXPRESSION_LIST
+    (103) H_EXPRESSION -> . S_EXPRESSION H_REXPRESSION
+    (108) S_EXPRESSION -> . EXPRESSION S_REXPRESSION
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    EXPRESSION_LIST                shift and go to state 195
+    H_EXPRESSION                   shift and go to state 196
+    S_EXPRESSION                   shift and go to state 139
+    EXPRESSION                     shift and go to state 140
+    TERM                           shift and go to state 118
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 144
+
+    (55) GRAPH -> GRAPH_K LPAREN VAR . neural_check_array COMMA VAR neural_check_array RPAREN neural_graph_quad
+    (56) neural_check_array -> . EMPTY
+    (133) EMPTY -> .
+
+    COMMA           reduce using rule 133 (EMPTY -> .)
+
+    neural_check_array             shift and go to state 197
+    EMPTY                          shift and go to state 198
+
+state 145
+
+    (26) PARAMETERS -> TYPE VAR neural_parameters RPARAMETERS .
+
+    RPAREN          reduce using rule 26 (PARAMETERS -> TYPE VAR neural_parameters RPARAMETERS .)
+
+
+state 146
+
+    (28) RPARAMETERS -> COMMA . PARAMETERS
+    (26) PARAMETERS -> . TYPE VAR neural_parameters RPARAMETERS
+    (27) PARAMETERS -> . EMPTY
+    (12) TYPE -> . INT_K
+    (13) TYPE -> . FLOAT_K
+    (14) TYPE -> . STRING_K
+    (133) EMPTY -> .
+
+    INT_K           shift and go to state 19
+    FLOAT_K         shift and go to state 20
+    STRING_K        shift and go to state 21
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+
+    PARAMETERS                     shift and go to state 199
+    TYPE                           shift and go to state 47
+    EMPTY                          shift and go to state 49
+
+state 147
+
+    (29) RPARAMETERS -> EMPTY .
+
+    RPAREN          reduce using rule 29 (RPARAMETERS -> EMPTY .)
+
+
+state 148
+
+    (21) MODULES_RETURN -> FUNCTION_K TYPE ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS . neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+    (24) neural_modules_size -> . EMPTY
+    (133) EMPTY -> .
+
+    RETURN_K        reduce using rule 133 (EMPTY -> .)
+    READ_K          reduce using rule 133 (EMPTY -> .)
+    WRITE_K         reduce using rule 133 (EMPTY -> .)
+    IF_K            reduce using rule 133 (EMPTY -> .)
+    WHILE_K         reduce using rule 133 (EMPTY -> .)
+    DO_K            reduce using rule 133 (EMPTY -> .)
+    ID              reduce using rule 133 (EMPTY -> .)
+    GRAPH_K         reduce using rule 133 (EMPTY -> .)
+    BLOCKEND        reduce using rule 133 (EMPTY -> .)
+
+    neural_modules_size            shift and go to state 200
+    EMPTY                          shift and go to state 201
+
+state 149
+
+    (22) MODULES_VOID -> FUNCTION_K VOID_K ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS . neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+    (24) neural_modules_size -> . EMPTY
+    (133) EMPTY -> .
+
+    RETURN_K        reduce using rule 133 (EMPTY -> .)
+    READ_K          reduce using rule 133 (EMPTY -> .)
+    WRITE_K         reduce using rule 133 (EMPTY -> .)
+    IF_K            reduce using rule 133 (EMPTY -> .)
+    WHILE_K         reduce using rule 133 (EMPTY -> .)
+    DO_K            reduce using rule 133 (EMPTY -> .)
+    ID              reduce using rule 133 (EMPTY -> .)
+    GRAPH_K         reduce using rule 133 (EMPTY -> .)
+    BLOCKEND        reduce using rule 133 (EMPTY -> .)
+
+    neural_modules_size            shift and go to state 202
+    EMPTY                          shift and go to state 201
+
+state 150
+
+    (6) VARS_DECL -> ARRAY_K TYPE VAR neural_array_dec LBRACE CONSTANT neural_constant neural_array_size . RBRACE SEMICOLON RVARS_DECL
+
+    RBRACE          shift and go to state 203
+
+
+state 151
+
+    (9) neural_array_size -> EMPTY .
+
+    RBRACE          reduce using rule 9 (neural_array_size -> EMPTY .)
+
+
+state 152
+
+    (70) ASSIGN -> ARRAY EQUALS neural_equals R_ASSIGN . neural_assign_quad
+    (83) neural_assign_quad -> . EMPTY
+    (133) EMPTY -> .
+
+    SEMICOLON       reduce using rule 133 (EMPTY -> .)
+
+    neural_assign_quad             shift and go to state 204
+    EMPTY                          shift and go to state 205
+
+state 153
+
+    (71) ASSIGN -> VAR neural_assign EQUALS neural_equals . R_ASSIGN neural_assign_quad
+    (72) R_ASSIGN -> . EXPRESSION
+    (73) R_ASSIGN -> . FUNCTION_CALL
+    (74) R_ASSIGN -> . ARRAY
+    (75) R_ASSIGN -> . MEAN
+    (76) R_ASSIGN -> . MEDIAN
+    (77) R_ASSIGN -> . MODE
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (31) FUNCTION_CALL -> . ID neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN
+    (78) ARRAY -> . VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE
+    (58) MEAN -> . MEAN_K LPAREN VAR neural_check_array RPAREN neural_mean_quad
+    (60) MEDIAN -> . MEDIAN_K LPAREN VAR neural_check_array RPAREN neural_median_quad
+    (62) MODE -> . MODE_K LPAREN VAR neural_check_array RPAREN neural_mode_quad
+    (123) TERM -> . FACTOR neural_term RTERM
+    (4) VAR -> . ID
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 133
+    MEAN_K          shift and go to state 135
+    MEDIAN_K        shift and go to state 136
+    MODE_K          shift and go to state 137
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    VAR                            shift and go to state 134
+    R_ASSIGN                       shift and go to state 206
+    EXPRESSION                     shift and go to state 127
+    FUNCTION_CALL                  shift and go to state 128
+    ARRAY                          shift and go to state 129
+    MEAN                           shift and go to state 130
+    MEDIAN                         shift and go to state 131
+    MODE                           shift and go to state 132
+    TERM                           shift and go to state 118
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 154
+
+    (78) ARRAY -> VAR neural_assign LBRACE neural_array_pop . EXPRESSION neural_array_ver RBRACE
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    EXPRESSION                     shift and go to state 207
+    TERM                           shift and go to state 118
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 155
+
+    (79) neural_array_pop -> EMPTY .
+
+    ID              reduce using rule 79 (neural_array_pop -> EMPTY .)
+    LPAREN          reduce using rule 79 (neural_array_pop -> EMPTY .)
+    INT             reduce using rule 79 (neural_array_pop -> EMPTY .)
+    FLOAT           reduce using rule 79 (neural_array_pop -> EMPTY .)
+    STRING          reduce using rule 79 (neural_array_pop -> EMPTY .)
+
+
+state 156
+
+    (130) FACTOR -> LPAREN H_EXPRESSION . RPAREN
+
+    RPAREN          shift and go to state 208
+
+
+state 157
+
+    (84) RETURN -> RETURN_K LPAREN EXPRESSION RPAREN . SEMICOLON
+
+    SEMICOLON       shift and go to state 209
+
+
+state 158
+
+    (117) EXPRESSION -> TERM neural_expression . REXPRESSION
+    (119) REXPRESSION -> . PLUS neural_op EXPRESSION
+    (120) REXPRESSION -> . MINUS neural_op EXPRESSION
+    (121) REXPRESSION -> . EMPTY
+    (133) EMPTY -> .
+
+    PLUS            shift and go to state 211
+    MINUS           shift and go to state 212
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    COMMA           reduce using rule 133 (EMPTY -> .)
+    GT              reduce using rule 133 (EMPTY -> .)
+    GTE             reduce using rule 133 (EMPTY -> .)
+    LT              reduce using rule 133 (EMPTY -> .)
+    LTE             reduce using rule 133 (EMPTY -> .)
+    DOUBLEEQUAL     reduce using rule 133 (EMPTY -> .)
+    NEQUAL          reduce using rule 133 (EMPTY -> .)
+    OR              reduce using rule 133 (EMPTY -> .)
+    AND             reduce using rule 133 (EMPTY -> .)
+    SEMICOLON       reduce using rule 133 (EMPTY -> .)
+    RBRACE          reduce using rule 133 (EMPTY -> .)
+
+    REXPRESSION                    shift and go to state 210
+    EMPTY                          shift and go to state 213
+
+state 159
+
+    (118) neural_expression -> EMPTY .
+
+    PLUS            reduce using rule 118 (neural_expression -> EMPTY .)
+    MINUS           reduce using rule 118 (neural_expression -> EMPTY .)
+    RPAREN          reduce using rule 118 (neural_expression -> EMPTY .)
+    COMMA           reduce using rule 118 (neural_expression -> EMPTY .)
+    GT              reduce using rule 118 (neural_expression -> EMPTY .)
+    GTE             reduce using rule 118 (neural_expression -> EMPTY .)
+    LT              reduce using rule 118 (neural_expression -> EMPTY .)
+    LTE             reduce using rule 118 (neural_expression -> EMPTY .)
+    DOUBLEEQUAL     reduce using rule 118 (neural_expression -> EMPTY .)
+    NEQUAL          reduce using rule 118 (neural_expression -> EMPTY .)
+    OR              reduce using rule 118 (neural_expression -> EMPTY .)
+    AND             reduce using rule 118 (neural_expression -> EMPTY .)
+    SEMICOLON       reduce using rule 118 (neural_expression -> EMPTY .)
+    RBRACE          reduce using rule 118 (neural_expression -> EMPTY .)
+
+
+state 160
+
+    (123) TERM -> FACTOR neural_term . RTERM
+    (125) RTERM -> . TIMES neural_op TERM
+    (126) RTERM -> . DIVIDE neural_op TERM
+    (127) RTERM -> . EMPTY
+    (133) EMPTY -> .
+
+    TIMES           shift and go to state 215
+    DIVIDE          shift and go to state 216
+    PLUS            reduce using rule 133 (EMPTY -> .)
+    MINUS           reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    COMMA           reduce using rule 133 (EMPTY -> .)
+    GT              reduce using rule 133 (EMPTY -> .)
+    GTE             reduce using rule 133 (EMPTY -> .)
+    LT              reduce using rule 133 (EMPTY -> .)
+    LTE             reduce using rule 133 (EMPTY -> .)
+    DOUBLEEQUAL     reduce using rule 133 (EMPTY -> .)
+    NEQUAL          reduce using rule 133 (EMPTY -> .)
+    OR              reduce using rule 133 (EMPTY -> .)
+    AND             reduce using rule 133 (EMPTY -> .)
+    SEMICOLON       reduce using rule 133 (EMPTY -> .)
+    RBRACE          reduce using rule 133 (EMPTY -> .)
+
+    RTERM                          shift and go to state 214
+    EMPTY                          shift and go to state 217
+
+state 161
+
+    (124) neural_term -> EMPTY .
+
+    TIMES           reduce using rule 124 (neural_term -> EMPTY .)
+    DIVIDE          reduce using rule 124 (neural_term -> EMPTY .)
+    PLUS            reduce using rule 124 (neural_term -> EMPTY .)
+    MINUS           reduce using rule 124 (neural_term -> EMPTY .)
+    RPAREN          reduce using rule 124 (neural_term -> EMPTY .)
+    COMMA           reduce using rule 124 (neural_term -> EMPTY .)
+    GT              reduce using rule 124 (neural_term -> EMPTY .)
+    GTE             reduce using rule 124 (neural_term -> EMPTY .)
+    LT              reduce using rule 124 (neural_term -> EMPTY .)
+    LTE             reduce using rule 124 (neural_term -> EMPTY .)
+    DOUBLEEQUAL     reduce using rule 124 (neural_term -> EMPTY .)
+    NEQUAL          reduce using rule 124 (neural_term -> EMPTY .)
+    OR              reduce using rule 124 (neural_term -> EMPTY .)
+    AND             reduce using rule 124 (neural_term -> EMPTY .)
+    SEMICOLON       reduce using rule 124 (neural_term -> EMPTY .)
+    RBRACE          reduce using rule 124 (neural_term -> EMPTY .)
+
+
+state 162
+
+    (128) FACTOR -> ID neural_factor_id .
+
+    TIMES           reduce using rule 128 (FACTOR -> ID neural_factor_id .)
+    DIVIDE          reduce using rule 128 (FACTOR -> ID neural_factor_id .)
+    PLUS            reduce using rule 128 (FACTOR -> ID neural_factor_id .)
+    MINUS           reduce using rule 128 (FACTOR -> ID neural_factor_id .)
+    RPAREN          reduce using rule 128 (FACTOR -> ID neural_factor_id .)
+    COMMA           reduce using rule 128 (FACTOR -> ID neural_factor_id .)
+    GT              reduce using rule 128 (FACTOR -> ID neural_factor_id .)
+    GTE             reduce using rule 128 (FACTOR -> ID neural_factor_id .)
+    LT              reduce using rule 128 (FACTOR -> ID neural_factor_id .)
+    LTE             reduce using rule 128 (FACTOR -> ID neural_factor_id .)
+    DOUBLEEQUAL     reduce using rule 128 (FACTOR -> ID neural_factor_id .)
+    NEQUAL          reduce using rule 128 (FACTOR -> ID neural_factor_id .)
+    OR              reduce using rule 128 (FACTOR -> ID neural_factor_id .)
+    AND             reduce using rule 128 (FACTOR -> ID neural_factor_id .)
+    SEMICOLON       reduce using rule 128 (FACTOR -> ID neural_factor_id .)
+    RBRACE          reduce using rule 128 (FACTOR -> ID neural_factor_id .)
+
+
+state 163
+
+    (132) neural_factor_id -> EMPTY .
+
+    TIMES           reduce using rule 132 (neural_factor_id -> EMPTY .)
+    DIVIDE          reduce using rule 132 (neural_factor_id -> EMPTY .)
+    PLUS            reduce using rule 132 (neural_factor_id -> EMPTY .)
+    MINUS           reduce using rule 132 (neural_factor_id -> EMPTY .)
+    RPAREN          reduce using rule 132 (neural_factor_id -> EMPTY .)
+    GT              reduce using rule 132 (neural_factor_id -> EMPTY .)
+    GTE             reduce using rule 132 (neural_factor_id -> EMPTY .)
+    LT              reduce using rule 132 (neural_factor_id -> EMPTY .)
+    LTE             reduce using rule 132 (neural_factor_id -> EMPTY .)
+    DOUBLEEQUAL     reduce using rule 132 (neural_factor_id -> EMPTY .)
+    NEQUAL          reduce using rule 132 (neural_factor_id -> EMPTY .)
+    OR              reduce using rule 132 (neural_factor_id -> EMPTY .)
+    AND             reduce using rule 132 (neural_factor_id -> EMPTY .)
+    COMMA           reduce using rule 132 (neural_factor_id -> EMPTY .)
+    RBRACE          reduce using rule 132 (neural_factor_id -> EMPTY .)
+    SEMICOLON       reduce using rule 132 (neural_factor_id -> EMPTY .)
+
+
+state 164
+
+    (129) FACTOR -> CONSTANT neural_constant .
+
+    TIMES           reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    DIVIDE          reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    PLUS            reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    MINUS           reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    RPAREN          reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    GT              reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    GTE             reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    LT              reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    LTE             reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    DOUBLEEQUAL     reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    NEQUAL          reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    OR              reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    AND             reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    SEMICOLON       reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    COMMA           reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    RBRACE          reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+
+
+state 165
+
+    (65) READ -> READ_K LPAREN ID_LIST RPAREN .
+
+    SEMICOLON       reduce using rule 65 (READ -> READ_K LPAREN ID_LIST RPAREN .)
+
+
+state 166
+
+    (66) ID_LIST -> ID neural_read . RID_LIST
+    (68) RID_LIST -> . COMMA ID_LIST
+    (69) RID_LIST -> . EMPTY
+    (133) EMPTY -> .
+
+    COMMA           shift and go to state 219
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+
+    RID_LIST                       shift and go to state 218
+    EMPTY                          shift and go to state 220
+
+state 167
+
+    (67) neural_read -> EMPTY .
+
+    COMMA           reduce using rule 67 (neural_read -> EMPTY .)
+    RPAREN          reduce using rule 67 (neural_read -> EMPTY .)
+
+
+state 168
+
+    (50) WRITE -> WRITE_K LPAREN WRITE_LIST RPAREN .
+
+    SEMICOLON       reduce using rule 50 (WRITE -> WRITE_K LPAREN WRITE_LIST RPAREN .)
+
+
+state 169
+
+    (51) WRITE_LIST -> R_ASSIGN RWRITE .
+
+    RPAREN          reduce using rule 51 (WRITE_LIST -> R_ASSIGN RWRITE .)
+
+
+state 170
+
+    (53) RWRITE -> neural_write . COMMA WRITE_LIST
+    (54) RWRITE -> neural_write . EMPTY
+    (133) EMPTY -> .
+
+    COMMA           shift and go to state 221
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+
+    EMPTY                          shift and go to state 222
+
+state 171
+
+    (64) neural_write -> EMPTY .
+
+    COMMA           reduce using rule 64 (neural_write -> EMPTY .)
+    RPAREN          reduce using rule 64 (neural_write -> EMPTY .)
+
+
+state 172
+
+    (52) WRITE_LIST -> CONSTANT neural_constant . RWRITE
+    (129) FACTOR -> CONSTANT neural_constant .
+    (53) RWRITE -> . neural_write COMMA WRITE_LIST
+    (54) RWRITE -> . neural_write EMPTY
+    (64) neural_write -> . EMPTY
+    (133) EMPTY -> .
+
+  ! reduce/reduce conflict for COMMA resolved using rule 129 (FACTOR -> CONSTANT neural_constant .)
+  ! reduce/reduce conflict for RPAREN resolved using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    TIMES           reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    DIVIDE          reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    PLUS            reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    MINUS           reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    COMMA           reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+    RPAREN          reduce using rule 129 (FACTOR -> CONSTANT neural_constant .)
+
+  ! COMMA           [ reduce using rule 133 (EMPTY -> .) ]
+  ! RPAREN          [ reduce using rule 133 (EMPTY -> .) ]
+
+    RWRITE                         shift and go to state 223
+    neural_write                   shift and go to state 170
+    EMPTY                          shift and go to state 171
+
+state 173
+
+    (32) neural_fc_era -> EMPTY .
+    (132) neural_factor_id -> EMPTY .
+
+    LPAREN          reduce using rule 32 (neural_fc_era -> EMPTY .)
+    TIMES           reduce using rule 132 (neural_factor_id -> EMPTY .)
+    DIVIDE          reduce using rule 132 (neural_factor_id -> EMPTY .)
+    PLUS            reduce using rule 132 (neural_factor_id -> EMPTY .)
+    MINUS           reduce using rule 132 (neural_factor_id -> EMPTY .)
+    COMMA           reduce using rule 132 (neural_factor_id -> EMPTY .)
+    RPAREN          reduce using rule 132 (neural_factor_id -> EMPTY .)
+    SEMICOLON       reduce using rule 132 (neural_factor_id -> EMPTY .)
+
+
+state 174
+
+    (78) ARRAY -> VAR neural_assign . LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE
+
+    LBRACE          shift and go to state 115
+
+
+state 175
+
+    (58) MEAN -> MEAN_K LPAREN . VAR neural_check_array RPAREN neural_mean_quad
+    (4) VAR -> . ID
+
+    ID              shift and go to state 31
+
+    VAR                            shift and go to state 224
+
+state 176
+
+    (60) MEDIAN -> MEDIAN_K LPAREN . VAR neural_check_array RPAREN neural_median_quad
+    (4) VAR -> . ID
+
+    ID              shift and go to state 31
+
+    VAR                            shift and go to state 225
+
+state 177
+
+    (62) MODE -> MODE_K LPAREN . VAR neural_check_array RPAREN neural_mode_quad
+    (4) VAR -> . ID
+
+    ID              shift and go to state 31
+
+    VAR                            shift and go to state 226
+
+state 178
+
+    (85) IFELSE -> IF_K LPAREN H_EXPRESSION RPAREN . neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end
+    (86) neural_ifelse -> . EMPTY
+    (133) EMPTY -> .
+
+    BLOCKSTART      reduce using rule 133 (EMPTY -> .)
+
+    neural_ifelse                  shift and go to state 227
+    EMPTY                          shift and go to state 228
+
+state 179
+
+    (103) H_EXPRESSION -> S_EXPRESSION H_REXPRESSION .
+
+    RPAREN          reduce using rule 103 (H_EXPRESSION -> S_EXPRESSION H_REXPRESSION .)
+    COMMA           reduce using rule 103 (H_EXPRESSION -> S_EXPRESSION H_REXPRESSION .)
+
+
+state 180
+
+    (104) H_REXPRESSION -> OR . neural_op H_EXPRESSION neural_hexpression
+    (122) neural_op -> . EMPTY
+    (133) EMPTY -> .
+
+    ID              reduce using rule 133 (EMPTY -> .)
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+    INT             reduce using rule 133 (EMPTY -> .)
+    FLOAT           reduce using rule 133 (EMPTY -> .)
+    STRING          reduce using rule 133 (EMPTY -> .)
+
+    neural_op                      shift and go to state 229
+    EMPTY                          shift and go to state 230
+
+state 181
+
+    (105) H_REXPRESSION -> AND . neural_op H_EXPRESSION
+    (122) neural_op -> . EMPTY
+    (133) EMPTY -> .
+
+    ID              reduce using rule 133 (EMPTY -> .)
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+    INT             reduce using rule 133 (EMPTY -> .)
+    FLOAT           reduce using rule 133 (EMPTY -> .)
+    STRING          reduce using rule 133 (EMPTY -> .)
+
+    neural_op                      shift and go to state 231
+    EMPTY                          shift and go to state 230
+
+state 182
+
+    (106) H_REXPRESSION -> EMPTY .
+
+    RPAREN          reduce using rule 106 (H_REXPRESSION -> EMPTY .)
+    COMMA           reduce using rule 106 (H_REXPRESSION -> EMPTY .)
+
+
+state 183
+
+    (108) S_EXPRESSION -> EXPRESSION S_REXPRESSION .
+
+    OR              reduce using rule 108 (S_EXPRESSION -> EXPRESSION S_REXPRESSION .)
+    AND             reduce using rule 108 (S_EXPRESSION -> EXPRESSION S_REXPRESSION .)
+    RPAREN          reduce using rule 108 (S_EXPRESSION -> EXPRESSION S_REXPRESSION .)
+    COMMA           reduce using rule 108 (S_EXPRESSION -> EXPRESSION S_REXPRESSION .)
+
+
+state 184
+
+    (109) S_REXPRESSION -> GT . neural_op S_EXPRESSION neural_sexpression
+    (122) neural_op -> . EMPTY
+    (133) EMPTY -> .
+
+    ID              reduce using rule 133 (EMPTY -> .)
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+    INT             reduce using rule 133 (EMPTY -> .)
+    FLOAT           reduce using rule 133 (EMPTY -> .)
+    STRING          reduce using rule 133 (EMPTY -> .)
+
+    neural_op                      shift and go to state 232
+    EMPTY                          shift and go to state 230
+
+state 185
+
+    (110) S_REXPRESSION -> GTE . neural_op S_EXPRESSION neural_sexpression
+    (122) neural_op -> . EMPTY
+    (133) EMPTY -> .
+
+    ID              reduce using rule 133 (EMPTY -> .)
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+    INT             reduce using rule 133 (EMPTY -> .)
+    FLOAT           reduce using rule 133 (EMPTY -> .)
+    STRING          reduce using rule 133 (EMPTY -> .)
+
+    neural_op                      shift and go to state 233
+    EMPTY                          shift and go to state 230
+
+state 186
+
+    (111) S_REXPRESSION -> LT . neural_op S_EXPRESSION neural_sexpression
+    (122) neural_op -> . EMPTY
+    (133) EMPTY -> .
+
+    ID              reduce using rule 133 (EMPTY -> .)
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+    INT             reduce using rule 133 (EMPTY -> .)
+    FLOAT           reduce using rule 133 (EMPTY -> .)
+    STRING          reduce using rule 133 (EMPTY -> .)
+
+    neural_op                      shift and go to state 234
+    EMPTY                          shift and go to state 230
+
+state 187
+
+    (112) S_REXPRESSION -> LTE . neural_op S_EXPRESSION neural_sexpression
+    (122) neural_op -> . EMPTY
+    (133) EMPTY -> .
+
+    ID              reduce using rule 133 (EMPTY -> .)
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+    INT             reduce using rule 133 (EMPTY -> .)
+    FLOAT           reduce using rule 133 (EMPTY -> .)
+    STRING          reduce using rule 133 (EMPTY -> .)
+
+    neural_op                      shift and go to state 235
+    EMPTY                          shift and go to state 230
+
+state 188
+
+    (113) S_REXPRESSION -> DOUBLEEQUAL . neural_op S_EXPRESSION neural_sexpression
+    (122) neural_op -> . EMPTY
+    (133) EMPTY -> .
+
+    ID              reduce using rule 133 (EMPTY -> .)
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+    INT             reduce using rule 133 (EMPTY -> .)
+    FLOAT           reduce using rule 133 (EMPTY -> .)
+    STRING          reduce using rule 133 (EMPTY -> .)
+
+    neural_op                      shift and go to state 236
+    EMPTY                          shift and go to state 230
+
+state 189
+
+    (114) S_REXPRESSION -> NEQUAL . neural_op S_EXPRESSION neural_sexpression
+    (122) neural_op -> . EMPTY
+    (133) EMPTY -> .
+
+    ID              reduce using rule 133 (EMPTY -> .)
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+    INT             reduce using rule 133 (EMPTY -> .)
+    FLOAT           reduce using rule 133 (EMPTY -> .)
+    STRING          reduce using rule 133 (EMPTY -> .)
+
+    neural_op                      shift and go to state 237
+    EMPTY                          shift and go to state 230
+
+state 190
+
+    (115) S_REXPRESSION -> EMPTY .
+
+    OR              reduce using rule 115 (S_REXPRESSION -> EMPTY .)
+    AND             reduce using rule 115 (S_REXPRESSION -> EMPTY .)
+    RPAREN          reduce using rule 115 (S_REXPRESSION -> EMPTY .)
+    COMMA           reduce using rule 115 (S_REXPRESSION -> EMPTY .)
+
+
+state 191
+
+    (92) WHILE_STMT -> WHILE_K neural_while_push LPAREN H_EXPRESSION . RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end
+
+    RPAREN          shift and go to state 238
+
+
+state 192
+
+    (96) DO_WHILE -> DO_K neural_do_while BLOCKSTART RSTATEMENT . BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON
+
+    BLOCKEND        shift and go to state 239
+
+
+state 193
+
+    (48) RSTATEMENT -> STATEMENT . RSTATEMENT
+    (48) RSTATEMENT -> . STATEMENT RSTATEMENT
+    (49) RSTATEMENT -> . EMPTY
+    (39) STATEMENT -> . ASSIGN SEMICOLON
+    (40) STATEMENT -> . RETURN
+    (41) STATEMENT -> . READ SEMICOLON
+    (42) STATEMENT -> . WRITE SEMICOLON
+    (43) STATEMENT -> . IFELSE
+    (44) STATEMENT -> . WHILE_STMT
+    (45) STATEMENT -> . DO_WHILE
+    (46) STATEMENT -> . FUNCTION_CALL SEMICOLON
+    (47) STATEMENT -> . GRAPH SEMICOLON
+    (133) EMPTY -> .
+    (70) ASSIGN -> . ARRAY EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (71) ASSIGN -> . VAR neural_assign EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (84) RETURN -> . RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON
+    (65) READ -> . READ_K LPAREN ID_LIST RPAREN
+    (50) WRITE -> . WRITE_K LPAREN WRITE_LIST RPAREN
+    (85) IFELSE -> . IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end
+    (92) WHILE_STMT -> . WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end
+    (96) DO_WHILE -> . DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON
+    (31) FUNCTION_CALL -> . ID neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN
+    (55) GRAPH -> . GRAPH_K LPAREN VAR neural_check_array COMMA VAR neural_check_array RPAREN neural_graph_quad
+    (78) ARRAY -> . VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE
+    (4) VAR -> . ID
+
+    BLOCKEND        reduce using rule 133 (EMPTY -> .)
+    RETURN_K        shift and go to state 69
+    READ_K          shift and go to state 70
+    WRITE_K         shift and go to state 71
+    IF_K            shift and go to state 72
+    WHILE_K         shift and go to state 73
+    DO_K            shift and go to state 74
+    ID              shift and go to state 75
+    GRAPH_K         shift and go to state 76
+
+    STATEMENT                      shift and go to state 193
+    RSTATEMENT                     shift and go to state 240
+    EMPTY                          shift and go to state 194
+    ASSIGN                         shift and go to state 58
+    RETURN                         shift and go to state 59
+    READ                           shift and go to state 60
+    WRITE                          shift and go to state 61
+    IFELSE                         shift and go to state 62
+    WHILE_STMT                     shift and go to state 63
+    DO_WHILE                       shift and go to state 64
+    FUNCTION_CALL                  shift and go to state 65
+    GRAPH                          shift and go to state 66
+    ARRAY                          shift and go to state 67
+    VAR                            shift and go to state 68
+
+state 194
+
+    (49) RSTATEMENT -> EMPTY .
+
+    BLOCKEND        reduce using rule 49 (RSTATEMENT -> EMPTY .)
+
+
+state 195
+
+    (31) FUNCTION_CALL -> ID neural_fc_era LPAREN EXPRESSION_LIST . neural_fc_gosub RPAREN
+    (33) neural_fc_gosub -> . EMPTY
+    (133) EMPTY -> .
+
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+
+    neural_fc_gosub                shift and go to state 241
+    EMPTY                          shift and go to state 242
+
+state 196
+
+    (99) EXPRESSION_LIST -> H_EXPRESSION . neural_param_exp REXPRESSION_LIST
+    (102) neural_param_exp -> . EMPTY
+    (133) EMPTY -> .
+
+    COMMA           reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+
+    neural_param_exp               shift and go to state 243
+    EMPTY                          shift and go to state 244
+
+state 197
+
+    (55) GRAPH -> GRAPH_K LPAREN VAR neural_check_array . COMMA VAR neural_check_array RPAREN neural_graph_quad
+
+    COMMA           shift and go to state 245
+
+
+state 198
+
+    (56) neural_check_array -> EMPTY .
+
+    COMMA           reduce using rule 56 (neural_check_array -> EMPTY .)
+    RPAREN          reduce using rule 56 (neural_check_array -> EMPTY .)
+
+
+state 199
+
+    (28) RPARAMETERS -> COMMA PARAMETERS .
+
+    RPAREN          reduce using rule 28 (RPARAMETERS -> COMMA PARAMETERS .)
+
+
+state 200
+
+    (21) MODULES_RETURN -> FUNCTION_K TYPE ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size . BODY BLOCKEND neural_endfunc MODULES
+    (36) BODY -> . STATEMENT RBODY
+    (37) BODY -> . EMPTY
+    (39) STATEMENT -> . ASSIGN SEMICOLON
+    (40) STATEMENT -> . RETURN
+    (41) STATEMENT -> . READ SEMICOLON
+    (42) STATEMENT -> . WRITE SEMICOLON
+    (43) STATEMENT -> . IFELSE
+    (44) STATEMENT -> . WHILE_STMT
+    (45) STATEMENT -> . DO_WHILE
+    (46) STATEMENT -> . FUNCTION_CALL SEMICOLON
+    (47) STATEMENT -> . GRAPH SEMICOLON
+    (133) EMPTY -> .
+    (70) ASSIGN -> . ARRAY EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (71) ASSIGN -> . VAR neural_assign EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (84) RETURN -> . RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON
+    (65) READ -> . READ_K LPAREN ID_LIST RPAREN
+    (50) WRITE -> . WRITE_K LPAREN WRITE_LIST RPAREN
+    (85) IFELSE -> . IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end
+    (92) WHILE_STMT -> . WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end
+    (96) DO_WHILE -> . DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON
+    (31) FUNCTION_CALL -> . ID neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN
+    (55) GRAPH -> . GRAPH_K LPAREN VAR neural_check_array COMMA VAR neural_check_array RPAREN neural_graph_quad
+    (78) ARRAY -> . VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE
+    (4) VAR -> . ID
+
+    BLOCKEND        reduce using rule 133 (EMPTY -> .)
+    RETURN_K        shift and go to state 69
+    READ_K          shift and go to state 70
+    WRITE_K         shift and go to state 71
+    IF_K            shift and go to state 72
+    WHILE_K         shift and go to state 73
+    DO_K            shift and go to state 74
+    ID              shift and go to state 75
+    GRAPH_K         shift and go to state 76
+
+    BODY                           shift and go to state 246
+    STATEMENT                      shift and go to state 56
+    EMPTY                          shift and go to state 57
+    ASSIGN                         shift and go to state 58
+    RETURN                         shift and go to state 59
+    READ                           shift and go to state 60
+    WRITE                          shift and go to state 61
+    IFELSE                         shift and go to state 62
+    WHILE_STMT                     shift and go to state 63
+    DO_WHILE                       shift and go to state 64
+    FUNCTION_CALL                  shift and go to state 65
+    GRAPH                          shift and go to state 66
+    ARRAY                          shift and go to state 67
+    VAR                            shift and go to state 68
+
+state 201
+
+    (24) neural_modules_size -> EMPTY .
+
+    RETURN_K        reduce using rule 24 (neural_modules_size -> EMPTY .)
+    READ_K          reduce using rule 24 (neural_modules_size -> EMPTY .)
+    WRITE_K         reduce using rule 24 (neural_modules_size -> EMPTY .)
+    IF_K            reduce using rule 24 (neural_modules_size -> EMPTY .)
+    WHILE_K         reduce using rule 24 (neural_modules_size -> EMPTY .)
+    DO_K            reduce using rule 24 (neural_modules_size -> EMPTY .)
+    ID              reduce using rule 24 (neural_modules_size -> EMPTY .)
+    GRAPH_K         reduce using rule 24 (neural_modules_size -> EMPTY .)
+    BLOCKEND        reduce using rule 24 (neural_modules_size -> EMPTY .)
+
+
+state 202
+
+    (22) MODULES_VOID -> FUNCTION_K VOID_K ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size . BODY BLOCKEND neural_endfunc MODULES
+    (36) BODY -> . STATEMENT RBODY
+    (37) BODY -> . EMPTY
+    (39) STATEMENT -> . ASSIGN SEMICOLON
+    (40) STATEMENT -> . RETURN
+    (41) STATEMENT -> . READ SEMICOLON
+    (42) STATEMENT -> . WRITE SEMICOLON
+    (43) STATEMENT -> . IFELSE
+    (44) STATEMENT -> . WHILE_STMT
+    (45) STATEMENT -> . DO_WHILE
+    (46) STATEMENT -> . FUNCTION_CALL SEMICOLON
+    (47) STATEMENT -> . GRAPH SEMICOLON
+    (133) EMPTY -> .
+    (70) ASSIGN -> . ARRAY EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (71) ASSIGN -> . VAR neural_assign EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (84) RETURN -> . RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON
+    (65) READ -> . READ_K LPAREN ID_LIST RPAREN
+    (50) WRITE -> . WRITE_K LPAREN WRITE_LIST RPAREN
+    (85) IFELSE -> . IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end
+    (92) WHILE_STMT -> . WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end
+    (96) DO_WHILE -> . DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON
+    (31) FUNCTION_CALL -> . ID neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN
+    (55) GRAPH -> . GRAPH_K LPAREN VAR neural_check_array COMMA VAR neural_check_array RPAREN neural_graph_quad
+    (78) ARRAY -> . VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE
+    (4) VAR -> . ID
+
+    BLOCKEND        reduce using rule 133 (EMPTY -> .)
+    RETURN_K        shift and go to state 69
+    READ_K          shift and go to state 70
+    WRITE_K         shift and go to state 71
+    IF_K            shift and go to state 72
+    WHILE_K         shift and go to state 73
+    DO_K            shift and go to state 74
+    ID              shift and go to state 75
+    GRAPH_K         shift and go to state 76
+
+    BODY                           shift and go to state 247
+    STATEMENT                      shift and go to state 56
+    EMPTY                          shift and go to state 57
+    ASSIGN                         shift and go to state 58
+    RETURN                         shift and go to state 59
+    READ                           shift and go to state 60
+    WRITE                          shift and go to state 61
+    IFELSE                         shift and go to state 62
+    WHILE_STMT                     shift and go to state 63
+    DO_WHILE                       shift and go to state 64
+    FUNCTION_CALL                  shift and go to state 65
+    GRAPH                          shift and go to state 66
+    ARRAY                          shift and go to state 67
+    VAR                            shift and go to state 68
+
+state 203
+
+    (6) VARS_DECL -> ARRAY_K TYPE VAR neural_array_dec LBRACE CONSTANT neural_constant neural_array_size RBRACE . SEMICOLON RVARS_DECL
+
+    SEMICOLON       shift and go to state 248
+
+
+state 204
+
+    (70) ASSIGN -> ARRAY EQUALS neural_equals R_ASSIGN neural_assign_quad .
+
+    SEMICOLON       reduce using rule 70 (ASSIGN -> ARRAY EQUALS neural_equals R_ASSIGN neural_assign_quad .)
+
+
+state 205
+
+    (83) neural_assign_quad -> EMPTY .
+
+    SEMICOLON       reduce using rule 83 (neural_assign_quad -> EMPTY .)
+
+
+state 206
+
+    (71) ASSIGN -> VAR neural_assign EQUALS neural_equals R_ASSIGN . neural_assign_quad
+    (83) neural_assign_quad -> . EMPTY
+    (133) EMPTY -> .
+
+    SEMICOLON       reduce using rule 133 (EMPTY -> .)
+
+    neural_assign_quad             shift and go to state 249
+    EMPTY                          shift and go to state 205
+
+state 207
+
+    (78) ARRAY -> VAR neural_assign LBRACE neural_array_pop EXPRESSION . neural_array_ver RBRACE
+    (80) neural_array_ver -> . EMPTY
+    (133) EMPTY -> .
+
+    RBRACE          reduce using rule 133 (EMPTY -> .)
+
+    neural_array_ver               shift and go to state 250
+    EMPTY                          shift and go to state 251
+
+state 208
+
+    (130) FACTOR -> LPAREN H_EXPRESSION RPAREN .
+
+    TIMES           reduce using rule 130 (FACTOR -> LPAREN H_EXPRESSION RPAREN .)
+    DIVIDE          reduce using rule 130 (FACTOR -> LPAREN H_EXPRESSION RPAREN .)
+    PLUS            reduce using rule 130 (FACTOR -> LPAREN H_EXPRESSION RPAREN .)
+    MINUS           reduce using rule 130 (FACTOR -> LPAREN H_EXPRESSION RPAREN .)
+    RPAREN          reduce using rule 130 (FACTOR -> LPAREN H_EXPRESSION RPAREN .)
+    COMMA           reduce using rule 130 (FACTOR -> LPAREN H_EXPRESSION RPAREN .)
+    GT              reduce using rule 130 (FACTOR -> LPAREN H_EXPRESSION RPAREN .)
+    GTE             reduce using rule 130 (FACTOR -> LPAREN H_EXPRESSION RPAREN .)
+    LT              reduce using rule 130 (FACTOR -> LPAREN H_EXPRESSION RPAREN .)
+    LTE             reduce using rule 130 (FACTOR -> LPAREN H_EXPRESSION RPAREN .)
+    DOUBLEEQUAL     reduce using rule 130 (FACTOR -> LPAREN H_EXPRESSION RPAREN .)
+    NEQUAL          reduce using rule 130 (FACTOR -> LPAREN H_EXPRESSION RPAREN .)
+    OR              reduce using rule 130 (FACTOR -> LPAREN H_EXPRESSION RPAREN .)
+    AND             reduce using rule 130 (FACTOR -> LPAREN H_EXPRESSION RPAREN .)
+    SEMICOLON       reduce using rule 130 (FACTOR -> LPAREN H_EXPRESSION RPAREN .)
+    RBRACE          reduce using rule 130 (FACTOR -> LPAREN H_EXPRESSION RPAREN .)
+
+
+state 209
+
+    (84) RETURN -> RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON .
+
+    RETURN_K        reduce using rule 84 (RETURN -> RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON .)
+    READ_K          reduce using rule 84 (RETURN -> RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON .)
+    WRITE_K         reduce using rule 84 (RETURN -> RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON .)
+    IF_K            reduce using rule 84 (RETURN -> RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON .)
+    WHILE_K         reduce using rule 84 (RETURN -> RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON .)
+    DO_K            reduce using rule 84 (RETURN -> RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON .)
+    ID              reduce using rule 84 (RETURN -> RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON .)
+    GRAPH_K         reduce using rule 84 (RETURN -> RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON .)
+    BLOCKEND        reduce using rule 84 (RETURN -> RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON .)
+
+
+state 210
+
+    (117) EXPRESSION -> TERM neural_expression REXPRESSION .
+
+    RPAREN          reduce using rule 117 (EXPRESSION -> TERM neural_expression REXPRESSION .)
+    COMMA           reduce using rule 117 (EXPRESSION -> TERM neural_expression REXPRESSION .)
+    GT              reduce using rule 117 (EXPRESSION -> TERM neural_expression REXPRESSION .)
+    GTE             reduce using rule 117 (EXPRESSION -> TERM neural_expression REXPRESSION .)
+    LT              reduce using rule 117 (EXPRESSION -> TERM neural_expression REXPRESSION .)
+    LTE             reduce using rule 117 (EXPRESSION -> TERM neural_expression REXPRESSION .)
+    DOUBLEEQUAL     reduce using rule 117 (EXPRESSION -> TERM neural_expression REXPRESSION .)
+    NEQUAL          reduce using rule 117 (EXPRESSION -> TERM neural_expression REXPRESSION .)
+    OR              reduce using rule 117 (EXPRESSION -> TERM neural_expression REXPRESSION .)
+    AND             reduce using rule 117 (EXPRESSION -> TERM neural_expression REXPRESSION .)
+    SEMICOLON       reduce using rule 117 (EXPRESSION -> TERM neural_expression REXPRESSION .)
+    RBRACE          reduce using rule 117 (EXPRESSION -> TERM neural_expression REXPRESSION .)
+
+
+state 211
+
+    (119) REXPRESSION -> PLUS . neural_op EXPRESSION
+    (122) neural_op -> . EMPTY
+    (133) EMPTY -> .
+
+    ID              reduce using rule 133 (EMPTY -> .)
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+    INT             reduce using rule 133 (EMPTY -> .)
+    FLOAT           reduce using rule 133 (EMPTY -> .)
+    STRING          reduce using rule 133 (EMPTY -> .)
+
+    neural_op                      shift and go to state 252
+    EMPTY                          shift and go to state 230
+
+state 212
+
+    (120) REXPRESSION -> MINUS . neural_op EXPRESSION
+    (122) neural_op -> . EMPTY
+    (133) EMPTY -> .
+
+    ID              reduce using rule 133 (EMPTY -> .)
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+    INT             reduce using rule 133 (EMPTY -> .)
+    FLOAT           reduce using rule 133 (EMPTY -> .)
+    STRING          reduce using rule 133 (EMPTY -> .)
+
+    neural_op                      shift and go to state 253
+    EMPTY                          shift and go to state 230
+
+state 213
+
+    (121) REXPRESSION -> EMPTY .
+
+    RPAREN          reduce using rule 121 (REXPRESSION -> EMPTY .)
+    COMMA           reduce using rule 121 (REXPRESSION -> EMPTY .)
+    GT              reduce using rule 121 (REXPRESSION -> EMPTY .)
+    GTE             reduce using rule 121 (REXPRESSION -> EMPTY .)
+    LT              reduce using rule 121 (REXPRESSION -> EMPTY .)
+    LTE             reduce using rule 121 (REXPRESSION -> EMPTY .)
+    DOUBLEEQUAL     reduce using rule 121 (REXPRESSION -> EMPTY .)
+    NEQUAL          reduce using rule 121 (REXPRESSION -> EMPTY .)
+    OR              reduce using rule 121 (REXPRESSION -> EMPTY .)
+    AND             reduce using rule 121 (REXPRESSION -> EMPTY .)
+    SEMICOLON       reduce using rule 121 (REXPRESSION -> EMPTY .)
+    RBRACE          reduce using rule 121 (REXPRESSION -> EMPTY .)
+
+
+state 214
+
+    (123) TERM -> FACTOR neural_term RTERM .
+
+    PLUS            reduce using rule 123 (TERM -> FACTOR neural_term RTERM .)
+    MINUS           reduce using rule 123 (TERM -> FACTOR neural_term RTERM .)
+    RPAREN          reduce using rule 123 (TERM -> FACTOR neural_term RTERM .)
+    COMMA           reduce using rule 123 (TERM -> FACTOR neural_term RTERM .)
+    GT              reduce using rule 123 (TERM -> FACTOR neural_term RTERM .)
+    GTE             reduce using rule 123 (TERM -> FACTOR neural_term RTERM .)
+    LT              reduce using rule 123 (TERM -> FACTOR neural_term RTERM .)
+    LTE             reduce using rule 123 (TERM -> FACTOR neural_term RTERM .)
+    DOUBLEEQUAL     reduce using rule 123 (TERM -> FACTOR neural_term RTERM .)
+    NEQUAL          reduce using rule 123 (TERM -> FACTOR neural_term RTERM .)
+    OR              reduce using rule 123 (TERM -> FACTOR neural_term RTERM .)
+    AND             reduce using rule 123 (TERM -> FACTOR neural_term RTERM .)
+    SEMICOLON       reduce using rule 123 (TERM -> FACTOR neural_term RTERM .)
+    RBRACE          reduce using rule 123 (TERM -> FACTOR neural_term RTERM .)
+
+
+state 215
+
+    (125) RTERM -> TIMES . neural_op TERM
+    (122) neural_op -> . EMPTY
+    (133) EMPTY -> .
+
+    ID              reduce using rule 133 (EMPTY -> .)
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+    INT             reduce using rule 133 (EMPTY -> .)
+    FLOAT           reduce using rule 133 (EMPTY -> .)
+    STRING          reduce using rule 133 (EMPTY -> .)
+
+    neural_op                      shift and go to state 254
+    EMPTY                          shift and go to state 230
+
+state 216
+
+    (126) RTERM -> DIVIDE . neural_op TERM
+    (122) neural_op -> . EMPTY
+    (133) EMPTY -> .
+
+    ID              reduce using rule 133 (EMPTY -> .)
+    LPAREN          reduce using rule 133 (EMPTY -> .)
+    INT             reduce using rule 133 (EMPTY -> .)
+    FLOAT           reduce using rule 133 (EMPTY -> .)
+    STRING          reduce using rule 133 (EMPTY -> .)
+
+    neural_op                      shift and go to state 255
+    EMPTY                          shift and go to state 230
+
+state 217
+
+    (127) RTERM -> EMPTY .
+
+    PLUS            reduce using rule 127 (RTERM -> EMPTY .)
+    MINUS           reduce using rule 127 (RTERM -> EMPTY .)
+    RPAREN          reduce using rule 127 (RTERM -> EMPTY .)
+    COMMA           reduce using rule 127 (RTERM -> EMPTY .)
+    GT              reduce using rule 127 (RTERM -> EMPTY .)
+    GTE             reduce using rule 127 (RTERM -> EMPTY .)
+    LT              reduce using rule 127 (RTERM -> EMPTY .)
+    LTE             reduce using rule 127 (RTERM -> EMPTY .)
+    DOUBLEEQUAL     reduce using rule 127 (RTERM -> EMPTY .)
+    NEQUAL          reduce using rule 127 (RTERM -> EMPTY .)
+    OR              reduce using rule 127 (RTERM -> EMPTY .)
+    AND             reduce using rule 127 (RTERM -> EMPTY .)
+    SEMICOLON       reduce using rule 127 (RTERM -> EMPTY .)
+    RBRACE          reduce using rule 127 (RTERM -> EMPTY .)
+
+
+state 218
+
+    (66) ID_LIST -> ID neural_read RID_LIST .
+
+    RPAREN          reduce using rule 66 (ID_LIST -> ID neural_read RID_LIST .)
+
+
+state 219
+
+    (68) RID_LIST -> COMMA . ID_LIST
+    (66) ID_LIST -> . ID neural_read RID_LIST
+
+    ID              shift and go to state 123
+
+    ID_LIST                        shift and go to state 256
+
+state 220
+
+    (69) RID_LIST -> EMPTY .
+
+    RPAREN          reduce using rule 69 (RID_LIST -> EMPTY .)
+
+
+state 221
+
+    (53) RWRITE -> neural_write COMMA . WRITE_LIST
+    (51) WRITE_LIST -> . R_ASSIGN RWRITE
+    (52) WRITE_LIST -> . CONSTANT neural_constant RWRITE
+    (72) R_ASSIGN -> . EXPRESSION
+    (73) R_ASSIGN -> . FUNCTION_CALL
+    (74) R_ASSIGN -> . ARRAY
+    (75) R_ASSIGN -> . MEAN
+    (76) R_ASSIGN -> . MEDIAN
+    (77) R_ASSIGN -> . MODE
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (31) FUNCTION_CALL -> . ID neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN
+    (78) ARRAY -> . VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE
+    (58) MEAN -> . MEAN_K LPAREN VAR neural_check_array RPAREN neural_mean_quad
+    (60) MEDIAN -> . MEDIAN_K LPAREN VAR neural_check_array RPAREN neural_median_quad
+    (62) MODE -> . MODE_K LPAREN VAR neural_check_array RPAREN neural_mode_quad
+    (123) TERM -> . FACTOR neural_term RTERM
+    (4) VAR -> . ID
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+    ID              shift and go to state 133
+    MEAN_K          shift and go to state 135
+    MEDIAN_K        shift and go to state 136
+    MODE_K          shift and go to state 137
+    LPAREN          shift and go to state 116
+
+    WRITE_LIST                     shift and go to state 257
+    R_ASSIGN                       shift and go to state 125
+    CONSTANT                       shift and go to state 126
+    EXPRESSION                     shift and go to state 127
+    FUNCTION_CALL                  shift and go to state 128
+    ARRAY                          shift and go to state 129
+    MEAN                           shift and go to state 130
+    MEDIAN                         shift and go to state 131
+    MODE                           shift and go to state 132
+    TERM                           shift and go to state 118
+    VAR                            shift and go to state 134
+    FACTOR                         shift and go to state 119
+
+state 222
+
+    (54) RWRITE -> neural_write EMPTY .
+
+    RPAREN          reduce using rule 54 (RWRITE -> neural_write EMPTY .)
+
+
+state 223
+
+    (52) WRITE_LIST -> CONSTANT neural_constant RWRITE .
+
+    RPAREN          reduce using rule 52 (WRITE_LIST -> CONSTANT neural_constant RWRITE .)
+
+
+state 224
+
+    (58) MEAN -> MEAN_K LPAREN VAR . neural_check_array RPAREN neural_mean_quad
+    (56) neural_check_array -> . EMPTY
+    (133) EMPTY -> .
+
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+
+    neural_check_array             shift and go to state 258
+    EMPTY                          shift and go to state 198
+
+state 225
+
+    (60) MEDIAN -> MEDIAN_K LPAREN VAR . neural_check_array RPAREN neural_median_quad
+    (56) neural_check_array -> . EMPTY
+    (133) EMPTY -> .
+
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+
+    neural_check_array             shift and go to state 259
+    EMPTY                          shift and go to state 198
+
+state 226
+
+    (62) MODE -> MODE_K LPAREN VAR . neural_check_array RPAREN neural_mode_quad
+    (56) neural_check_array -> . EMPTY
+    (133) EMPTY -> .
+
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+
+    neural_check_array             shift and go to state 260
+    EMPTY                          shift and go to state 198
+
+state 227
+
+    (85) IFELSE -> IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse . BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end
+
+    BLOCKSTART      shift and go to state 261
+
+
+state 228
+
+    (86) neural_ifelse -> EMPTY .
+
+    BLOCKSTART      reduce using rule 86 (neural_ifelse -> EMPTY .)
+
+
+state 229
+
+    (104) H_REXPRESSION -> OR neural_op . H_EXPRESSION neural_hexpression
+    (103) H_EXPRESSION -> . S_EXPRESSION H_REXPRESSION
+    (108) S_EXPRESSION -> . EXPRESSION S_REXPRESSION
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    H_EXPRESSION                   shift and go to state 262
+    S_EXPRESSION                   shift and go to state 139
+    EXPRESSION                     shift and go to state 140
+    TERM                           shift and go to state 118
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 230
+
+    (122) neural_op -> EMPTY .
+
+    ID              reduce using rule 122 (neural_op -> EMPTY .)
+    LPAREN          reduce using rule 122 (neural_op -> EMPTY .)
+    INT             reduce using rule 122 (neural_op -> EMPTY .)
+    FLOAT           reduce using rule 122 (neural_op -> EMPTY .)
+    STRING          reduce using rule 122 (neural_op -> EMPTY .)
+
+
+state 231
+
+    (105) H_REXPRESSION -> AND neural_op . H_EXPRESSION
+    (103) H_EXPRESSION -> . S_EXPRESSION H_REXPRESSION
+    (108) S_EXPRESSION -> . EXPRESSION S_REXPRESSION
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    H_EXPRESSION                   shift and go to state 263
+    S_EXPRESSION                   shift and go to state 139
+    EXPRESSION                     shift and go to state 140
+    TERM                           shift and go to state 118
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 232
+
+    (109) S_REXPRESSION -> GT neural_op . S_EXPRESSION neural_sexpression
+    (108) S_EXPRESSION -> . EXPRESSION S_REXPRESSION
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    S_EXPRESSION                   shift and go to state 264
+    EXPRESSION                     shift and go to state 140
+    TERM                           shift and go to state 118
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 233
+
+    (110) S_REXPRESSION -> GTE neural_op . S_EXPRESSION neural_sexpression
+    (108) S_EXPRESSION -> . EXPRESSION S_REXPRESSION
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    S_EXPRESSION                   shift and go to state 265
+    EXPRESSION                     shift and go to state 140
+    TERM                           shift and go to state 118
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 234
+
+    (111) S_REXPRESSION -> LT neural_op . S_EXPRESSION neural_sexpression
+    (108) S_EXPRESSION -> . EXPRESSION S_REXPRESSION
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    S_EXPRESSION                   shift and go to state 266
+    EXPRESSION                     shift and go to state 140
+    TERM                           shift and go to state 118
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 235
+
+    (112) S_REXPRESSION -> LTE neural_op . S_EXPRESSION neural_sexpression
+    (108) S_EXPRESSION -> . EXPRESSION S_REXPRESSION
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    S_EXPRESSION                   shift and go to state 267
+    EXPRESSION                     shift and go to state 140
+    TERM                           shift and go to state 118
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 236
+
+    (113) S_REXPRESSION -> DOUBLEEQUAL neural_op . S_EXPRESSION neural_sexpression
+    (108) S_EXPRESSION -> . EXPRESSION S_REXPRESSION
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    S_EXPRESSION                   shift and go to state 268
+    EXPRESSION                     shift and go to state 140
+    TERM                           shift and go to state 118
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 237
+
+    (114) S_REXPRESSION -> NEQUAL neural_op . S_EXPRESSION neural_sexpression
+    (108) S_EXPRESSION -> . EXPRESSION S_REXPRESSION
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    S_EXPRESSION                   shift and go to state 269
+    EXPRESSION                     shift and go to state 140
+    TERM                           shift and go to state 118
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 238
+
+    (92) WHILE_STMT -> WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN . neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end
+    (94) neural_while -> . EMPTY
+    (133) EMPTY -> .
+
+    BLOCKSTART      reduce using rule 133 (EMPTY -> .)
+
+    neural_while                   shift and go to state 270
+    EMPTY                          shift and go to state 271
+
+state 239
+
+    (96) DO_WHILE -> DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND . WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON
+
+    WHILE_K         shift and go to state 272
+
+
+state 240
+
+    (48) RSTATEMENT -> STATEMENT RSTATEMENT .
+
+    BLOCKEND        reduce using rule 48 (RSTATEMENT -> STATEMENT RSTATEMENT .)
+
+
+state 241
+
+    (31) FUNCTION_CALL -> ID neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub . RPAREN
+
+    RPAREN          shift and go to state 273
+
+
+state 242
+
+    (33) neural_fc_gosub -> EMPTY .
+
+    RPAREN          reduce using rule 33 (neural_fc_gosub -> EMPTY .)
+
+
+state 243
+
+    (99) EXPRESSION_LIST -> H_EXPRESSION neural_param_exp . REXPRESSION_LIST
+    (100) REXPRESSION_LIST -> . COMMA EXPRESSION_LIST
+    (101) REXPRESSION_LIST -> . EMPTY
+    (133) EMPTY -> .
+
+    COMMA           shift and go to state 275
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+
+    REXPRESSION_LIST               shift and go to state 274
+    EMPTY                          shift and go to state 276
+
+state 244
+
+    (102) neural_param_exp -> EMPTY .
+
+    COMMA           reduce using rule 102 (neural_param_exp -> EMPTY .)
+    RPAREN          reduce using rule 102 (neural_param_exp -> EMPTY .)
+
+
+state 245
+
+    (55) GRAPH -> GRAPH_K LPAREN VAR neural_check_array COMMA . VAR neural_check_array RPAREN neural_graph_quad
+    (4) VAR -> . ID
+
+    ID              shift and go to state 31
+
+    VAR                            shift and go to state 277
+
+state 246
+
+    (21) MODULES_RETURN -> FUNCTION_K TYPE ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY . BLOCKEND neural_endfunc MODULES
+
+    BLOCKEND        shift and go to state 278
+
+
+state 247
+
+    (22) MODULES_VOID -> FUNCTION_K VOID_K ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY . BLOCKEND neural_endfunc MODULES
+
+    BLOCKEND        shift and go to state 279
+
+
+state 248
+
+    (6) VARS_DECL -> ARRAY_K TYPE VAR neural_array_dec LBRACE CONSTANT neural_constant neural_array_size RBRACE SEMICOLON . RVARS_DECL
+    (10) RVARS_DECL -> . VARS_DECL
+    (11) RVARS_DECL -> . EMPTY
+    (5) VARS_DECL -> . TYPE VAR neural_var_dec SEMICOLON RVARS_DECL
+    (6) VARS_DECL -> . ARRAY_K TYPE VAR neural_array_dec LBRACE CONSTANT neural_constant neural_array_size RBRACE SEMICOLON RVARS_DECL
+    (133) EMPTY -> .
+    (12) TYPE -> . INT_K
+    (13) TYPE -> . FLOAT_K
+    (14) TYPE -> . STRING_K
+
+    ARRAY_K         shift and go to state 24
+    BLOCKEND        reduce using rule 133 (EMPTY -> .)
+    INT_K           shift and go to state 19
+    FLOAT_K         shift and go to state 20
+    STRING_K        shift and go to state 21
+
+    TYPE                           shift and go to state 23
+    RVARS_DECL                     shift and go to state 280
+    VARS_DECL                      shift and go to state 52
+    EMPTY                          shift and go to state 53
+
+state 249
+
+    (71) ASSIGN -> VAR neural_assign EQUALS neural_equals R_ASSIGN neural_assign_quad .
+
+    SEMICOLON       reduce using rule 71 (ASSIGN -> VAR neural_assign EQUALS neural_equals R_ASSIGN neural_assign_quad .)
+
+
+state 250
+
+    (78) ARRAY -> VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver . RBRACE
+
+    RBRACE          shift and go to state 281
+
+
+state 251
+
+    (80) neural_array_ver -> EMPTY .
+
+    RBRACE          reduce using rule 80 (neural_array_ver -> EMPTY .)
+
+
+state 252
+
+    (119) REXPRESSION -> PLUS neural_op . EXPRESSION
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    EXPRESSION                     shift and go to state 282
+    TERM                           shift and go to state 118
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 253
+
+    (120) REXPRESSION -> MINUS neural_op . EXPRESSION
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    EXPRESSION                     shift and go to state 283
+    TERM                           shift and go to state 118
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 254
+
+    (125) RTERM -> TIMES neural_op . TERM
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    TERM                           shift and go to state 284
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 255
+
+    (126) RTERM -> DIVIDE neural_op . TERM
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    TERM                           shift and go to state 285
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 256
+
+    (68) RID_LIST -> COMMA ID_LIST .
+
+    RPAREN          reduce using rule 68 (RID_LIST -> COMMA ID_LIST .)
+
+
+state 257
+
+    (53) RWRITE -> neural_write COMMA WRITE_LIST .
+
+    RPAREN          reduce using rule 53 (RWRITE -> neural_write COMMA WRITE_LIST .)
+
+
+state 258
+
+    (58) MEAN -> MEAN_K LPAREN VAR neural_check_array . RPAREN neural_mean_quad
+
+    RPAREN          shift and go to state 286
+
+
+state 259
+
+    (60) MEDIAN -> MEDIAN_K LPAREN VAR neural_check_array . RPAREN neural_median_quad
+
+    RPAREN          shift and go to state 287
+
+
+state 260
+
+    (62) MODE -> MODE_K LPAREN VAR neural_check_array . RPAREN neural_mode_quad
+
+    RPAREN          shift and go to state 288
+
+
+state 261
+
+    (85) IFELSE -> IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART . RSTATEMENT BLOCKEND NELSE neural_ifelse_end
+    (48) RSTATEMENT -> . STATEMENT RSTATEMENT
+    (49) RSTATEMENT -> . EMPTY
+    (39) STATEMENT -> . ASSIGN SEMICOLON
+    (40) STATEMENT -> . RETURN
+    (41) STATEMENT -> . READ SEMICOLON
+    (42) STATEMENT -> . WRITE SEMICOLON
+    (43) STATEMENT -> . IFELSE
+    (44) STATEMENT -> . WHILE_STMT
+    (45) STATEMENT -> . DO_WHILE
+    (46) STATEMENT -> . FUNCTION_CALL SEMICOLON
+    (47) STATEMENT -> . GRAPH SEMICOLON
+    (133) EMPTY -> .
+    (70) ASSIGN -> . ARRAY EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (71) ASSIGN -> . VAR neural_assign EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (84) RETURN -> . RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON
+    (65) READ -> . READ_K LPAREN ID_LIST RPAREN
+    (50) WRITE -> . WRITE_K LPAREN WRITE_LIST RPAREN
+    (85) IFELSE -> . IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end
+    (92) WHILE_STMT -> . WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end
+    (96) DO_WHILE -> . DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON
+    (31) FUNCTION_CALL -> . ID neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN
+    (55) GRAPH -> . GRAPH_K LPAREN VAR neural_check_array COMMA VAR neural_check_array RPAREN neural_graph_quad
+    (78) ARRAY -> . VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE
+    (4) VAR -> . ID
+
+    BLOCKEND        reduce using rule 133 (EMPTY -> .)
+    RETURN_K        shift and go to state 69
+    READ_K          shift and go to state 70
+    WRITE_K         shift and go to state 71
+    IF_K            shift and go to state 72
+    WHILE_K         shift and go to state 73
+    DO_K            shift and go to state 74
+    ID              shift and go to state 75
+    GRAPH_K         shift and go to state 76
+
+    RSTATEMENT                     shift and go to state 289
+    STATEMENT                      shift and go to state 193
+    EMPTY                          shift and go to state 194
+    ASSIGN                         shift and go to state 58
+    RETURN                         shift and go to state 59
+    READ                           shift and go to state 60
+    WRITE                          shift and go to state 61
+    IFELSE                         shift and go to state 62
+    WHILE_STMT                     shift and go to state 63
+    DO_WHILE                       shift and go to state 64
+    FUNCTION_CALL                  shift and go to state 65
+    GRAPH                          shift and go to state 66
+    ARRAY                          shift and go to state 67
+    VAR                            shift and go to state 68
+
+state 262
+
+    (104) H_REXPRESSION -> OR neural_op H_EXPRESSION . neural_hexpression
+    (107) neural_hexpression -> . EMPTY
+    (133) EMPTY -> .
+
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    COMMA           reduce using rule 133 (EMPTY -> .)
+
+    neural_hexpression             shift and go to state 290
+    EMPTY                          shift and go to state 291
+
+state 263
+
+    (105) H_REXPRESSION -> AND neural_op H_EXPRESSION .
+
+    RPAREN          reduce using rule 105 (H_REXPRESSION -> AND neural_op H_EXPRESSION .)
+    COMMA           reduce using rule 105 (H_REXPRESSION -> AND neural_op H_EXPRESSION .)
+
+
+state 264
+
+    (109) S_REXPRESSION -> GT neural_op S_EXPRESSION . neural_sexpression
+    (116) neural_sexpression -> . EMPTY
+    (133) EMPTY -> .
+
+    OR              reduce using rule 133 (EMPTY -> .)
+    AND             reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    COMMA           reduce using rule 133 (EMPTY -> .)
+
+    neural_sexpression             shift and go to state 292
+    EMPTY                          shift and go to state 293
+
+state 265
+
+    (110) S_REXPRESSION -> GTE neural_op S_EXPRESSION . neural_sexpression
+    (116) neural_sexpression -> . EMPTY
+    (133) EMPTY -> .
+
+    OR              reduce using rule 133 (EMPTY -> .)
+    AND             reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    COMMA           reduce using rule 133 (EMPTY -> .)
+
+    neural_sexpression             shift and go to state 294
+    EMPTY                          shift and go to state 293
+
+state 266
+
+    (111) S_REXPRESSION -> LT neural_op S_EXPRESSION . neural_sexpression
+    (116) neural_sexpression -> . EMPTY
+    (133) EMPTY -> .
+
+    OR              reduce using rule 133 (EMPTY -> .)
+    AND             reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    COMMA           reduce using rule 133 (EMPTY -> .)
+
+    neural_sexpression             shift and go to state 295
+    EMPTY                          shift and go to state 293
+
+state 267
+
+    (112) S_REXPRESSION -> LTE neural_op S_EXPRESSION . neural_sexpression
+    (116) neural_sexpression -> . EMPTY
+    (133) EMPTY -> .
+
+    OR              reduce using rule 133 (EMPTY -> .)
+    AND             reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    COMMA           reduce using rule 133 (EMPTY -> .)
+
+    neural_sexpression             shift and go to state 296
+    EMPTY                          shift and go to state 293
+
+state 268
+
+    (113) S_REXPRESSION -> DOUBLEEQUAL neural_op S_EXPRESSION . neural_sexpression
+    (116) neural_sexpression -> . EMPTY
+    (133) EMPTY -> .
+
+    OR              reduce using rule 133 (EMPTY -> .)
+    AND             reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    COMMA           reduce using rule 133 (EMPTY -> .)
+
+    neural_sexpression             shift and go to state 297
+    EMPTY                          shift and go to state 293
+
+state 269
+
+    (114) S_REXPRESSION -> NEQUAL neural_op S_EXPRESSION . neural_sexpression
+    (116) neural_sexpression -> . EMPTY
+    (133) EMPTY -> .
+
+    OR              reduce using rule 133 (EMPTY -> .)
+    AND             reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    COMMA           reduce using rule 133 (EMPTY -> .)
+
+    neural_sexpression             shift and go to state 298
+    EMPTY                          shift and go to state 293
+
+state 270
+
+    (92) WHILE_STMT -> WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while . BLOCKSTART RSTATEMENT BLOCKEND neural_while_end
+
+    BLOCKSTART      shift and go to state 299
+
+
+state 271
+
+    (94) neural_while -> EMPTY .
+
+    BLOCKSTART      reduce using rule 94 (neural_while -> EMPTY .)
+
+
+state 272
+
+    (96) DO_WHILE -> DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K . LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON
+
+    LPAREN          shift and go to state 300
+
+
+state 273
+
+    (31) FUNCTION_CALL -> ID neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN .
+
+    SEMICOLON       reduce using rule 31 (FUNCTION_CALL -> ID neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN .)
+    COMMA           reduce using rule 31 (FUNCTION_CALL -> ID neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN .)
+    RPAREN          reduce using rule 31 (FUNCTION_CALL -> ID neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN .)
+
+
+state 274
+
+    (99) EXPRESSION_LIST -> H_EXPRESSION neural_param_exp REXPRESSION_LIST .
+
+    RPAREN          reduce using rule 99 (EXPRESSION_LIST -> H_EXPRESSION neural_param_exp REXPRESSION_LIST .)
+
+
+state 275
+
+    (100) REXPRESSION_LIST -> COMMA . EXPRESSION_LIST
+    (99) EXPRESSION_LIST -> . H_EXPRESSION neural_param_exp REXPRESSION_LIST
+    (103) H_EXPRESSION -> . S_EXPRESSION H_REXPRESSION
+    (108) S_EXPRESSION -> . EXPRESSION S_REXPRESSION
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    EXPRESSION_LIST                shift and go to state 301
+    H_EXPRESSION                   shift and go to state 196
+    S_EXPRESSION                   shift and go to state 139
+    EXPRESSION                     shift and go to state 140
+    TERM                           shift and go to state 118
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 276
+
+    (101) REXPRESSION_LIST -> EMPTY .
+
+    RPAREN          reduce using rule 101 (REXPRESSION_LIST -> EMPTY .)
+
+
+state 277
+
+    (55) GRAPH -> GRAPH_K LPAREN VAR neural_check_array COMMA VAR . neural_check_array RPAREN neural_graph_quad
+    (56) neural_check_array -> . EMPTY
+    (133) EMPTY -> .
+
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+
+    neural_check_array             shift and go to state 302
+    EMPTY                          shift and go to state 198
+
+state 278
+
+    (21) MODULES_RETURN -> FUNCTION_K TYPE ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND . neural_endfunc MODULES
+    (25) neural_endfunc -> . EMPTY
+    (133) EMPTY -> .
+
+    FUNCTION_K      reduce using rule 133 (EMPTY -> .)
+    MAIN_K          reduce using rule 133 (EMPTY -> .)
+
+    neural_endfunc                 shift and go to state 303
+    EMPTY                          shift and go to state 304
+
+state 279
+
+    (22) MODULES_VOID -> FUNCTION_K VOID_K ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND . neural_endfunc MODULES
+    (25) neural_endfunc -> . EMPTY
+    (133) EMPTY -> .
+
+    FUNCTION_K      reduce using rule 133 (EMPTY -> .)
+    MAIN_K          reduce using rule 133 (EMPTY -> .)
+
+    neural_endfunc                 shift and go to state 305
+    EMPTY                          shift and go to state 304
+
+state 280
+
+    (6) VARS_DECL -> ARRAY_K TYPE VAR neural_array_dec LBRACE CONSTANT neural_constant neural_array_size RBRACE SEMICOLON RVARS_DECL .
+
+    BLOCKEND        reduce using rule 6 (VARS_DECL -> ARRAY_K TYPE VAR neural_array_dec LBRACE CONSTANT neural_constant neural_array_size RBRACE SEMICOLON RVARS_DECL .)
+
+
+state 281
+
+    (78) ARRAY -> VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE .
+
+    EQUALS          reduce using rule 78 (ARRAY -> VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE .)
+    COMMA           reduce using rule 78 (ARRAY -> VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE .)
+    RPAREN          reduce using rule 78 (ARRAY -> VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE .)
+    SEMICOLON       reduce using rule 78 (ARRAY -> VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE .)
+
+
+state 282
+
+    (119) REXPRESSION -> PLUS neural_op EXPRESSION .
+
+    RPAREN          reduce using rule 119 (REXPRESSION -> PLUS neural_op EXPRESSION .)
+    COMMA           reduce using rule 119 (REXPRESSION -> PLUS neural_op EXPRESSION .)
+    GT              reduce using rule 119 (REXPRESSION -> PLUS neural_op EXPRESSION .)
+    GTE             reduce using rule 119 (REXPRESSION -> PLUS neural_op EXPRESSION .)
+    LT              reduce using rule 119 (REXPRESSION -> PLUS neural_op EXPRESSION .)
+    LTE             reduce using rule 119 (REXPRESSION -> PLUS neural_op EXPRESSION .)
+    DOUBLEEQUAL     reduce using rule 119 (REXPRESSION -> PLUS neural_op EXPRESSION .)
+    NEQUAL          reduce using rule 119 (REXPRESSION -> PLUS neural_op EXPRESSION .)
+    OR              reduce using rule 119 (REXPRESSION -> PLUS neural_op EXPRESSION .)
+    AND             reduce using rule 119 (REXPRESSION -> PLUS neural_op EXPRESSION .)
+    SEMICOLON       reduce using rule 119 (REXPRESSION -> PLUS neural_op EXPRESSION .)
+    RBRACE          reduce using rule 119 (REXPRESSION -> PLUS neural_op EXPRESSION .)
+
+
+state 283
+
+    (120) REXPRESSION -> MINUS neural_op EXPRESSION .
+
+    RPAREN          reduce using rule 120 (REXPRESSION -> MINUS neural_op EXPRESSION .)
+    COMMA           reduce using rule 120 (REXPRESSION -> MINUS neural_op EXPRESSION .)
+    GT              reduce using rule 120 (REXPRESSION -> MINUS neural_op EXPRESSION .)
+    GTE             reduce using rule 120 (REXPRESSION -> MINUS neural_op EXPRESSION .)
+    LT              reduce using rule 120 (REXPRESSION -> MINUS neural_op EXPRESSION .)
+    LTE             reduce using rule 120 (REXPRESSION -> MINUS neural_op EXPRESSION .)
+    DOUBLEEQUAL     reduce using rule 120 (REXPRESSION -> MINUS neural_op EXPRESSION .)
+    NEQUAL          reduce using rule 120 (REXPRESSION -> MINUS neural_op EXPRESSION .)
+    OR              reduce using rule 120 (REXPRESSION -> MINUS neural_op EXPRESSION .)
+    AND             reduce using rule 120 (REXPRESSION -> MINUS neural_op EXPRESSION .)
+    SEMICOLON       reduce using rule 120 (REXPRESSION -> MINUS neural_op EXPRESSION .)
+    RBRACE          reduce using rule 120 (REXPRESSION -> MINUS neural_op EXPRESSION .)
+
+
+state 284
+
+    (125) RTERM -> TIMES neural_op TERM .
+
+    PLUS            reduce using rule 125 (RTERM -> TIMES neural_op TERM .)
+    MINUS           reduce using rule 125 (RTERM -> TIMES neural_op TERM .)
+    RPAREN          reduce using rule 125 (RTERM -> TIMES neural_op TERM .)
+    COMMA           reduce using rule 125 (RTERM -> TIMES neural_op TERM .)
+    GT              reduce using rule 125 (RTERM -> TIMES neural_op TERM .)
+    GTE             reduce using rule 125 (RTERM -> TIMES neural_op TERM .)
+    LT              reduce using rule 125 (RTERM -> TIMES neural_op TERM .)
+    LTE             reduce using rule 125 (RTERM -> TIMES neural_op TERM .)
+    DOUBLEEQUAL     reduce using rule 125 (RTERM -> TIMES neural_op TERM .)
+    NEQUAL          reduce using rule 125 (RTERM -> TIMES neural_op TERM .)
+    OR              reduce using rule 125 (RTERM -> TIMES neural_op TERM .)
+    AND             reduce using rule 125 (RTERM -> TIMES neural_op TERM .)
+    SEMICOLON       reduce using rule 125 (RTERM -> TIMES neural_op TERM .)
+    RBRACE          reduce using rule 125 (RTERM -> TIMES neural_op TERM .)
+
+
+state 285
+
+    (126) RTERM -> DIVIDE neural_op TERM .
+
+    PLUS            reduce using rule 126 (RTERM -> DIVIDE neural_op TERM .)
+    MINUS           reduce using rule 126 (RTERM -> DIVIDE neural_op TERM .)
+    RPAREN          reduce using rule 126 (RTERM -> DIVIDE neural_op TERM .)
+    COMMA           reduce using rule 126 (RTERM -> DIVIDE neural_op TERM .)
+    GT              reduce using rule 126 (RTERM -> DIVIDE neural_op TERM .)
+    GTE             reduce using rule 126 (RTERM -> DIVIDE neural_op TERM .)
+    LT              reduce using rule 126 (RTERM -> DIVIDE neural_op TERM .)
+    LTE             reduce using rule 126 (RTERM -> DIVIDE neural_op TERM .)
+    DOUBLEEQUAL     reduce using rule 126 (RTERM -> DIVIDE neural_op TERM .)
+    NEQUAL          reduce using rule 126 (RTERM -> DIVIDE neural_op TERM .)
+    OR              reduce using rule 126 (RTERM -> DIVIDE neural_op TERM .)
+    AND             reduce using rule 126 (RTERM -> DIVIDE neural_op TERM .)
+    SEMICOLON       reduce using rule 126 (RTERM -> DIVIDE neural_op TERM .)
+    RBRACE          reduce using rule 126 (RTERM -> DIVIDE neural_op TERM .)
+
+
+state 286
+
+    (58) MEAN -> MEAN_K LPAREN VAR neural_check_array RPAREN . neural_mean_quad
+    (59) neural_mean_quad -> . EMPTY
+    (133) EMPTY -> .
+
+    COMMA           reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    SEMICOLON       reduce using rule 133 (EMPTY -> .)
+
+    neural_mean_quad               shift and go to state 306
+    EMPTY                          shift and go to state 307
+
+state 287
+
+    (60) MEDIAN -> MEDIAN_K LPAREN VAR neural_check_array RPAREN . neural_median_quad
+    (61) neural_median_quad -> . EMPTY
+    (133) EMPTY -> .
+
+    COMMA           reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    SEMICOLON       reduce using rule 133 (EMPTY -> .)
+
+    neural_median_quad             shift and go to state 308
+    EMPTY                          shift and go to state 309
+
+state 288
+
+    (62) MODE -> MODE_K LPAREN VAR neural_check_array RPAREN . neural_mode_quad
+    (63) neural_mode_quad -> . EMPTY
+    (133) EMPTY -> .
+
+    COMMA           reduce using rule 133 (EMPTY -> .)
+    RPAREN          reduce using rule 133 (EMPTY -> .)
+    SEMICOLON       reduce using rule 133 (EMPTY -> .)
+
+    neural_mode_quad               shift and go to state 310
+    EMPTY                          shift and go to state 311
+
+state 289
+
+    (85) IFELSE -> IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT . BLOCKEND NELSE neural_ifelse_end
+
+    BLOCKEND        shift and go to state 312
+
+
+state 290
+
+    (104) H_REXPRESSION -> OR neural_op H_EXPRESSION neural_hexpression .
+
+    RPAREN          reduce using rule 104 (H_REXPRESSION -> OR neural_op H_EXPRESSION neural_hexpression .)
+    COMMA           reduce using rule 104 (H_REXPRESSION -> OR neural_op H_EXPRESSION neural_hexpression .)
+
+
+state 291
+
+    (107) neural_hexpression -> EMPTY .
+
+    RPAREN          reduce using rule 107 (neural_hexpression -> EMPTY .)
+    COMMA           reduce using rule 107 (neural_hexpression -> EMPTY .)
+
+
+state 292
+
+    (109) S_REXPRESSION -> GT neural_op S_EXPRESSION neural_sexpression .
+
+    OR              reduce using rule 109 (S_REXPRESSION -> GT neural_op S_EXPRESSION neural_sexpression .)
+    AND             reduce using rule 109 (S_REXPRESSION -> GT neural_op S_EXPRESSION neural_sexpression .)
+    RPAREN          reduce using rule 109 (S_REXPRESSION -> GT neural_op S_EXPRESSION neural_sexpression .)
+    COMMA           reduce using rule 109 (S_REXPRESSION -> GT neural_op S_EXPRESSION neural_sexpression .)
+
+
+state 293
+
+    (116) neural_sexpression -> EMPTY .
+
+    OR              reduce using rule 116 (neural_sexpression -> EMPTY .)
+    AND             reduce using rule 116 (neural_sexpression -> EMPTY .)
+    RPAREN          reduce using rule 116 (neural_sexpression -> EMPTY .)
+    COMMA           reduce using rule 116 (neural_sexpression -> EMPTY .)
+
+
+state 294
+
+    (110) S_REXPRESSION -> GTE neural_op S_EXPRESSION neural_sexpression .
+
+    OR              reduce using rule 110 (S_REXPRESSION -> GTE neural_op S_EXPRESSION neural_sexpression .)
+    AND             reduce using rule 110 (S_REXPRESSION -> GTE neural_op S_EXPRESSION neural_sexpression .)
+    RPAREN          reduce using rule 110 (S_REXPRESSION -> GTE neural_op S_EXPRESSION neural_sexpression .)
+    COMMA           reduce using rule 110 (S_REXPRESSION -> GTE neural_op S_EXPRESSION neural_sexpression .)
+
+
+state 295
+
+    (111) S_REXPRESSION -> LT neural_op S_EXPRESSION neural_sexpression .
+
+    OR              reduce using rule 111 (S_REXPRESSION -> LT neural_op S_EXPRESSION neural_sexpression .)
+    AND             reduce using rule 111 (S_REXPRESSION -> LT neural_op S_EXPRESSION neural_sexpression .)
+    RPAREN          reduce using rule 111 (S_REXPRESSION -> LT neural_op S_EXPRESSION neural_sexpression .)
+    COMMA           reduce using rule 111 (S_REXPRESSION -> LT neural_op S_EXPRESSION neural_sexpression .)
+
+
+state 296
+
+    (112) S_REXPRESSION -> LTE neural_op S_EXPRESSION neural_sexpression .
+
+    OR              reduce using rule 112 (S_REXPRESSION -> LTE neural_op S_EXPRESSION neural_sexpression .)
+    AND             reduce using rule 112 (S_REXPRESSION -> LTE neural_op S_EXPRESSION neural_sexpression .)
+    RPAREN          reduce using rule 112 (S_REXPRESSION -> LTE neural_op S_EXPRESSION neural_sexpression .)
+    COMMA           reduce using rule 112 (S_REXPRESSION -> LTE neural_op S_EXPRESSION neural_sexpression .)
+
+
+state 297
+
+    (113) S_REXPRESSION -> DOUBLEEQUAL neural_op S_EXPRESSION neural_sexpression .
+
+    OR              reduce using rule 113 (S_REXPRESSION -> DOUBLEEQUAL neural_op S_EXPRESSION neural_sexpression .)
+    AND             reduce using rule 113 (S_REXPRESSION -> DOUBLEEQUAL neural_op S_EXPRESSION neural_sexpression .)
+    RPAREN          reduce using rule 113 (S_REXPRESSION -> DOUBLEEQUAL neural_op S_EXPRESSION neural_sexpression .)
+    COMMA           reduce using rule 113 (S_REXPRESSION -> DOUBLEEQUAL neural_op S_EXPRESSION neural_sexpression .)
+
+
+state 298
+
+    (114) S_REXPRESSION -> NEQUAL neural_op S_EXPRESSION neural_sexpression .
+
+    OR              reduce using rule 114 (S_REXPRESSION -> NEQUAL neural_op S_EXPRESSION neural_sexpression .)
+    AND             reduce using rule 114 (S_REXPRESSION -> NEQUAL neural_op S_EXPRESSION neural_sexpression .)
+    RPAREN          reduce using rule 114 (S_REXPRESSION -> NEQUAL neural_op S_EXPRESSION neural_sexpression .)
+    COMMA           reduce using rule 114 (S_REXPRESSION -> NEQUAL neural_op S_EXPRESSION neural_sexpression .)
+
+
+state 299
+
+    (92) WHILE_STMT -> WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART . RSTATEMENT BLOCKEND neural_while_end
+    (48) RSTATEMENT -> . STATEMENT RSTATEMENT
+    (49) RSTATEMENT -> . EMPTY
+    (39) STATEMENT -> . ASSIGN SEMICOLON
+    (40) STATEMENT -> . RETURN
+    (41) STATEMENT -> . READ SEMICOLON
+    (42) STATEMENT -> . WRITE SEMICOLON
+    (43) STATEMENT -> . IFELSE
+    (44) STATEMENT -> . WHILE_STMT
+    (45) STATEMENT -> . DO_WHILE
+    (46) STATEMENT -> . FUNCTION_CALL SEMICOLON
+    (47) STATEMENT -> . GRAPH SEMICOLON
+    (133) EMPTY -> .
+    (70) ASSIGN -> . ARRAY EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (71) ASSIGN -> . VAR neural_assign EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (84) RETURN -> . RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON
+    (65) READ -> . READ_K LPAREN ID_LIST RPAREN
+    (50) WRITE -> . WRITE_K LPAREN WRITE_LIST RPAREN
+    (85) IFELSE -> . IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end
+    (92) WHILE_STMT -> . WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end
+    (96) DO_WHILE -> . DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON
+    (31) FUNCTION_CALL -> . ID neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN
+    (55) GRAPH -> . GRAPH_K LPAREN VAR neural_check_array COMMA VAR neural_check_array RPAREN neural_graph_quad
+    (78) ARRAY -> . VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE
+    (4) VAR -> . ID
+
+    BLOCKEND        reduce using rule 133 (EMPTY -> .)
+    RETURN_K        shift and go to state 69
+    READ_K          shift and go to state 70
+    WRITE_K         shift and go to state 71
+    IF_K            shift and go to state 72
+    WHILE_K         shift and go to state 73
+    DO_K            shift and go to state 74
+    ID              shift and go to state 75
+    GRAPH_K         shift and go to state 76
+
+    RSTATEMENT                     shift and go to state 313
+    STATEMENT                      shift and go to state 193
+    EMPTY                          shift and go to state 194
+    ASSIGN                         shift and go to state 58
+    RETURN                         shift and go to state 59
+    READ                           shift and go to state 60
+    WRITE                          shift and go to state 61
+    IFELSE                         shift and go to state 62
+    WHILE_STMT                     shift and go to state 63
+    DO_WHILE                       shift and go to state 64
+    FUNCTION_CALL                  shift and go to state 65
+    GRAPH                          shift and go to state 66
+    ARRAY                          shift and go to state 67
+    VAR                            shift and go to state 68
+
+state 300
+
+    (96) DO_WHILE -> DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN . H_EXPRESSION RPAREN neural_do_while_end SEMICOLON
+    (103) H_EXPRESSION -> . S_EXPRESSION H_REXPRESSION
+    (108) S_EXPRESSION -> . EXPRESSION S_REXPRESSION
+    (117) EXPRESSION -> . TERM neural_expression REXPRESSION
+    (123) TERM -> . FACTOR neural_term RTERM
+    (128) FACTOR -> . ID neural_factor_id
+    (129) FACTOR -> . CONSTANT neural_constant
+    (130) FACTOR -> . LPAREN H_EXPRESSION RPAREN
+    (15) CONSTANT -> . INT
+    (16) CONSTANT -> . FLOAT
+    (17) CONSTANT -> . STRING
+
+    ID              shift and go to state 120
+    LPAREN          shift and go to state 116
+    INT             shift and go to state 81
+    FLOAT           shift and go to state 82
+    STRING          shift and go to state 83
+
+    H_EXPRESSION                   shift and go to state 314
+    S_EXPRESSION                   shift and go to state 139
+    EXPRESSION                     shift and go to state 140
+    TERM                           shift and go to state 118
+    FACTOR                         shift and go to state 119
+    CONSTANT                       shift and go to state 121
+
+state 301
+
+    (100) REXPRESSION_LIST -> COMMA EXPRESSION_LIST .
+
+    RPAREN          reduce using rule 100 (REXPRESSION_LIST -> COMMA EXPRESSION_LIST .)
+
+
+state 302
+
+    (55) GRAPH -> GRAPH_K LPAREN VAR neural_check_array COMMA VAR neural_check_array . RPAREN neural_graph_quad
+
+    RPAREN          shift and go to state 315
+
+
+state 303
+
+    (21) MODULES_RETURN -> FUNCTION_K TYPE ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc . MODULES
+    (18) MODULES -> . MODULES_RETURN
+    (19) MODULES -> . MODULES_VOID
+    (20) MODULES -> . EMPTY
+    (21) MODULES_RETURN -> . FUNCTION_K TYPE ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+    (22) MODULES_VOID -> . FUNCTION_K VOID_K ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+    (133) EMPTY -> .
+
+    FUNCTION_K      shift and go to state 13
+    MAIN_K          reduce using rule 133 (EMPTY -> .)
+
+    MODULES                        shift and go to state 316
+    MODULES_RETURN                 shift and go to state 10
+    MODULES_VOID                   shift and go to state 11
+    EMPTY                          shift and go to state 12
+
+state 304
+
+    (25) neural_endfunc -> EMPTY .
+
+    FUNCTION_K      reduce using rule 25 (neural_endfunc -> EMPTY .)
+    MAIN_K          reduce using rule 25 (neural_endfunc -> EMPTY .)
+
+
+state 305
+
+    (22) MODULES_VOID -> FUNCTION_K VOID_K ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc . MODULES
+    (18) MODULES -> . MODULES_RETURN
+    (19) MODULES -> . MODULES_VOID
+    (20) MODULES -> . EMPTY
+    (21) MODULES_RETURN -> . FUNCTION_K TYPE ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+    (22) MODULES_VOID -> . FUNCTION_K VOID_K ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES
+    (133) EMPTY -> .
+
+    FUNCTION_K      shift and go to state 13
+    MAIN_K          reduce using rule 133 (EMPTY -> .)
+
+    MODULES                        shift and go to state 317
+    MODULES_RETURN                 shift and go to state 10
+    MODULES_VOID                   shift and go to state 11
+    EMPTY                          shift and go to state 12
+
+state 306
+
+    (58) MEAN -> MEAN_K LPAREN VAR neural_check_array RPAREN neural_mean_quad .
+
+    COMMA           reduce using rule 58 (MEAN -> MEAN_K LPAREN VAR neural_check_array RPAREN neural_mean_quad .)
+    RPAREN          reduce using rule 58 (MEAN -> MEAN_K LPAREN VAR neural_check_array RPAREN neural_mean_quad .)
+    SEMICOLON       reduce using rule 58 (MEAN -> MEAN_K LPAREN VAR neural_check_array RPAREN neural_mean_quad .)
+
+
+state 307
+
+    (59) neural_mean_quad -> EMPTY .
+
+    COMMA           reduce using rule 59 (neural_mean_quad -> EMPTY .)
+    RPAREN          reduce using rule 59 (neural_mean_quad -> EMPTY .)
+    SEMICOLON       reduce using rule 59 (neural_mean_quad -> EMPTY .)
+
+
+state 308
+
+    (60) MEDIAN -> MEDIAN_K LPAREN VAR neural_check_array RPAREN neural_median_quad .
+
+    COMMA           reduce using rule 60 (MEDIAN -> MEDIAN_K LPAREN VAR neural_check_array RPAREN neural_median_quad .)
+    RPAREN          reduce using rule 60 (MEDIAN -> MEDIAN_K LPAREN VAR neural_check_array RPAREN neural_median_quad .)
+    SEMICOLON       reduce using rule 60 (MEDIAN -> MEDIAN_K LPAREN VAR neural_check_array RPAREN neural_median_quad .)
+
+
+state 309
+
+    (61) neural_median_quad -> EMPTY .
+
+    COMMA           reduce using rule 61 (neural_median_quad -> EMPTY .)
+    RPAREN          reduce using rule 61 (neural_median_quad -> EMPTY .)
+    SEMICOLON       reduce using rule 61 (neural_median_quad -> EMPTY .)
+
+
+state 310
+
+    (62) MODE -> MODE_K LPAREN VAR neural_check_array RPAREN neural_mode_quad .
+
+    COMMA           reduce using rule 62 (MODE -> MODE_K LPAREN VAR neural_check_array RPAREN neural_mode_quad .)
+    RPAREN          reduce using rule 62 (MODE -> MODE_K LPAREN VAR neural_check_array RPAREN neural_mode_quad .)
+    SEMICOLON       reduce using rule 62 (MODE -> MODE_K LPAREN VAR neural_check_array RPAREN neural_mode_quad .)
+
+
+state 311
+
+    (63) neural_mode_quad -> EMPTY .
+
+    COMMA           reduce using rule 63 (neural_mode_quad -> EMPTY .)
+    RPAREN          reduce using rule 63 (neural_mode_quad -> EMPTY .)
+    SEMICOLON       reduce using rule 63 (neural_mode_quad -> EMPTY .)
+
+
+state 312
+
+    (85) IFELSE -> IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND . NELSE neural_ifelse_end
+    (88) NELSE -> . ELSE
+    (89) NELSE -> . EMPTY
+    (90) ELSE -> . neural_else ELSE_K BLOCKSTART RSTATEMENT BLOCKEND
+    (133) EMPTY -> .
+    (91) neural_else -> . EMPTY
+
+    RETURN_K        reduce using rule 133 (EMPTY -> .)
+    READ_K          reduce using rule 133 (EMPTY -> .)
+    WRITE_K         reduce using rule 133 (EMPTY -> .)
+    IF_K            reduce using rule 133 (EMPTY -> .)
+    WHILE_K         reduce using rule 133 (EMPTY -> .)
+    DO_K            reduce using rule 133 (EMPTY -> .)
+    ID              reduce using rule 133 (EMPTY -> .)
+    GRAPH_K         reduce using rule 133 (EMPTY -> .)
+    BLOCKEND        reduce using rule 133 (EMPTY -> .)
+    ELSE_K          reduce using rule 133 (EMPTY -> .)
+
+    NELSE                          shift and go to state 318
+    ELSE                           shift and go to state 319
+    EMPTY                          shift and go to state 320
+    neural_else                    shift and go to state 321
+
+state 313
+
+    (92) WHILE_STMT -> WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT . BLOCKEND neural_while_end
+
+    BLOCKEND        shift and go to state 322
+
+
+state 314
+
+    (96) DO_WHILE -> DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION . RPAREN neural_do_while_end SEMICOLON
+
+    RPAREN          shift and go to state 323
+
+
+state 315
+
+    (55) GRAPH -> GRAPH_K LPAREN VAR neural_check_array COMMA VAR neural_check_array RPAREN . neural_graph_quad
+    (57) neural_graph_quad -> . EMPTY
+    (133) EMPTY -> .
+
+    SEMICOLON       reduce using rule 133 (EMPTY -> .)
+
+    neural_graph_quad              shift and go to state 324
+    EMPTY                          shift and go to state 325
+
+state 316
+
+    (21) MODULES_RETURN -> FUNCTION_K TYPE ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES .
+
+    MAIN_K          reduce using rule 21 (MODULES_RETURN -> FUNCTION_K TYPE ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES .)
+
+
+state 317
+
+    (22) MODULES_VOID -> FUNCTION_K VOID_K ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES .
+
+    MAIN_K          reduce using rule 22 (MODULES_VOID -> FUNCTION_K VOID_K ID neural_modules LPAREN PARAMETERS RPAREN BLOCKSTART VARS neural_modules_size BODY BLOCKEND neural_endfunc MODULES .)
+
+
+state 318
+
+    (85) IFELSE -> IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE . neural_ifelse_end
+    (87) neural_ifelse_end -> . EMPTY
+    (133) EMPTY -> .
+
+    RETURN_K        reduce using rule 133 (EMPTY -> .)
+    READ_K          reduce using rule 133 (EMPTY -> .)
+    WRITE_K         reduce using rule 133 (EMPTY -> .)
+    IF_K            reduce using rule 133 (EMPTY -> .)
+    WHILE_K         reduce using rule 133 (EMPTY -> .)
+    DO_K            reduce using rule 133 (EMPTY -> .)
+    ID              reduce using rule 133 (EMPTY -> .)
+    GRAPH_K         reduce using rule 133 (EMPTY -> .)
+    BLOCKEND        reduce using rule 133 (EMPTY -> .)
+
+    neural_ifelse_end              shift and go to state 326
+    EMPTY                          shift and go to state 327
+
+state 319
+
+    (88) NELSE -> ELSE .
+
+    RETURN_K        reduce using rule 88 (NELSE -> ELSE .)
+    READ_K          reduce using rule 88 (NELSE -> ELSE .)
+    WRITE_K         reduce using rule 88 (NELSE -> ELSE .)
+    IF_K            reduce using rule 88 (NELSE -> ELSE .)
+    WHILE_K         reduce using rule 88 (NELSE -> ELSE .)
+    DO_K            reduce using rule 88 (NELSE -> ELSE .)
+    ID              reduce using rule 88 (NELSE -> ELSE .)
+    GRAPH_K         reduce using rule 88 (NELSE -> ELSE .)
+    BLOCKEND        reduce using rule 88 (NELSE -> ELSE .)
+
+
+state 320
+
+    (89) NELSE -> EMPTY .
+    (91) neural_else -> EMPTY .
+
+    RETURN_K        reduce using rule 89 (NELSE -> EMPTY .)
+    READ_K          reduce using rule 89 (NELSE -> EMPTY .)
+    WRITE_K         reduce using rule 89 (NELSE -> EMPTY .)
+    IF_K            reduce using rule 89 (NELSE -> EMPTY .)
+    WHILE_K         reduce using rule 89 (NELSE -> EMPTY .)
+    DO_K            reduce using rule 89 (NELSE -> EMPTY .)
+    ID              reduce using rule 89 (NELSE -> EMPTY .)
+    GRAPH_K         reduce using rule 89 (NELSE -> EMPTY .)
+    BLOCKEND        reduce using rule 89 (NELSE -> EMPTY .)
+    ELSE_K          reduce using rule 91 (neural_else -> EMPTY .)
+
+
+state 321
+
+    (90) ELSE -> neural_else . ELSE_K BLOCKSTART RSTATEMENT BLOCKEND
+
+    ELSE_K          shift and go to state 328
+
+
+state 322
+
+    (92) WHILE_STMT -> WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND . neural_while_end
+    (95) neural_while_end -> . EMPTY
+    (133) EMPTY -> .
+
+    RETURN_K        reduce using rule 133 (EMPTY -> .)
+    READ_K          reduce using rule 133 (EMPTY -> .)
+    WRITE_K         reduce using rule 133 (EMPTY -> .)
+    IF_K            reduce using rule 133 (EMPTY -> .)
+    WHILE_K         reduce using rule 133 (EMPTY -> .)
+    DO_K            reduce using rule 133 (EMPTY -> .)
+    ID              reduce using rule 133 (EMPTY -> .)
+    GRAPH_K         reduce using rule 133 (EMPTY -> .)
+    BLOCKEND        reduce using rule 133 (EMPTY -> .)
+
+    neural_while_end               shift and go to state 329
+    EMPTY                          shift and go to state 330
+
+state 323
+
+    (96) DO_WHILE -> DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN . neural_do_while_end SEMICOLON
+    (98) neural_do_while_end -> . EMPTY
+    (133) EMPTY -> .
+
+    SEMICOLON       reduce using rule 133 (EMPTY -> .)
+
+    neural_do_while_end            shift and go to state 331
+    EMPTY                          shift and go to state 332
+
+state 324
+
+    (55) GRAPH -> GRAPH_K LPAREN VAR neural_check_array COMMA VAR neural_check_array RPAREN neural_graph_quad .
+
+    SEMICOLON       reduce using rule 55 (GRAPH -> GRAPH_K LPAREN VAR neural_check_array COMMA VAR neural_check_array RPAREN neural_graph_quad .)
+
+
+state 325
+
+    (57) neural_graph_quad -> EMPTY .
+
+    SEMICOLON       reduce using rule 57 (neural_graph_quad -> EMPTY .)
+
+
+state 326
+
+    (85) IFELSE -> IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end .
+
+    RETURN_K        reduce using rule 85 (IFELSE -> IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end .)
+    READ_K          reduce using rule 85 (IFELSE -> IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end .)
+    WRITE_K         reduce using rule 85 (IFELSE -> IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end .)
+    IF_K            reduce using rule 85 (IFELSE -> IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end .)
+    WHILE_K         reduce using rule 85 (IFELSE -> IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end .)
+    DO_K            reduce using rule 85 (IFELSE -> IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end .)
+    ID              reduce using rule 85 (IFELSE -> IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end .)
+    GRAPH_K         reduce using rule 85 (IFELSE -> IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end .)
+    BLOCKEND        reduce using rule 85 (IFELSE -> IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end .)
+
+
+state 327
+
+    (87) neural_ifelse_end -> EMPTY .
+
+    RETURN_K        reduce using rule 87 (neural_ifelse_end -> EMPTY .)
+    READ_K          reduce using rule 87 (neural_ifelse_end -> EMPTY .)
+    WRITE_K         reduce using rule 87 (neural_ifelse_end -> EMPTY .)
+    IF_K            reduce using rule 87 (neural_ifelse_end -> EMPTY .)
+    WHILE_K         reduce using rule 87 (neural_ifelse_end -> EMPTY .)
+    DO_K            reduce using rule 87 (neural_ifelse_end -> EMPTY .)
+    ID              reduce using rule 87 (neural_ifelse_end -> EMPTY .)
+    GRAPH_K         reduce using rule 87 (neural_ifelse_end -> EMPTY .)
+    BLOCKEND        reduce using rule 87 (neural_ifelse_end -> EMPTY .)
+
+
+state 328
+
+    (90) ELSE -> neural_else ELSE_K . BLOCKSTART RSTATEMENT BLOCKEND
+
+    BLOCKSTART      shift and go to state 333
+
+
+state 329
+
+    (92) WHILE_STMT -> WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end .
+
+    RETURN_K        reduce using rule 92 (WHILE_STMT -> WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end .)
+    READ_K          reduce using rule 92 (WHILE_STMT -> WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end .)
+    WRITE_K         reduce using rule 92 (WHILE_STMT -> WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end .)
+    IF_K            reduce using rule 92 (WHILE_STMT -> WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end .)
+    WHILE_K         reduce using rule 92 (WHILE_STMT -> WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end .)
+    DO_K            reduce using rule 92 (WHILE_STMT -> WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end .)
+    ID              reduce using rule 92 (WHILE_STMT -> WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end .)
+    GRAPH_K         reduce using rule 92 (WHILE_STMT -> WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end .)
+    BLOCKEND        reduce using rule 92 (WHILE_STMT -> WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end .)
+
+
+state 330
+
+    (95) neural_while_end -> EMPTY .
+
+    RETURN_K        reduce using rule 95 (neural_while_end -> EMPTY .)
+    READ_K          reduce using rule 95 (neural_while_end -> EMPTY .)
+    WRITE_K         reduce using rule 95 (neural_while_end -> EMPTY .)
+    IF_K            reduce using rule 95 (neural_while_end -> EMPTY .)
+    WHILE_K         reduce using rule 95 (neural_while_end -> EMPTY .)
+    DO_K            reduce using rule 95 (neural_while_end -> EMPTY .)
+    ID              reduce using rule 95 (neural_while_end -> EMPTY .)
+    GRAPH_K         reduce using rule 95 (neural_while_end -> EMPTY .)
+    BLOCKEND        reduce using rule 95 (neural_while_end -> EMPTY .)
+
+
+state 331
+
+    (96) DO_WHILE -> DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end . SEMICOLON
+
+    SEMICOLON       shift and go to state 334
+
+
+state 332
+
+    (98) neural_do_while_end -> EMPTY .
+
+    SEMICOLON       reduce using rule 98 (neural_do_while_end -> EMPTY .)
+
+
+state 333
+
+    (90) ELSE -> neural_else ELSE_K BLOCKSTART . RSTATEMENT BLOCKEND
+    (48) RSTATEMENT -> . STATEMENT RSTATEMENT
+    (49) RSTATEMENT -> . EMPTY
+    (39) STATEMENT -> . ASSIGN SEMICOLON
+    (40) STATEMENT -> . RETURN
+    (41) STATEMENT -> . READ SEMICOLON
+    (42) STATEMENT -> . WRITE SEMICOLON
+    (43) STATEMENT -> . IFELSE
+    (44) STATEMENT -> . WHILE_STMT
+    (45) STATEMENT -> . DO_WHILE
+    (46) STATEMENT -> . FUNCTION_CALL SEMICOLON
+    (47) STATEMENT -> . GRAPH SEMICOLON
+    (133) EMPTY -> .
+    (70) ASSIGN -> . ARRAY EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (71) ASSIGN -> . VAR neural_assign EQUALS neural_equals R_ASSIGN neural_assign_quad
+    (84) RETURN -> . RETURN_K LPAREN EXPRESSION RPAREN SEMICOLON
+    (65) READ -> . READ_K LPAREN ID_LIST RPAREN
+    (50) WRITE -> . WRITE_K LPAREN WRITE_LIST RPAREN
+    (85) IFELSE -> . IF_K LPAREN H_EXPRESSION RPAREN neural_ifelse BLOCKSTART RSTATEMENT BLOCKEND NELSE neural_ifelse_end
+    (92) WHILE_STMT -> . WHILE_K neural_while_push LPAREN H_EXPRESSION RPAREN neural_while BLOCKSTART RSTATEMENT BLOCKEND neural_while_end
+    (96) DO_WHILE -> . DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON
+    (31) FUNCTION_CALL -> . ID neural_fc_era LPAREN EXPRESSION_LIST neural_fc_gosub RPAREN
+    (55) GRAPH -> . GRAPH_K LPAREN VAR neural_check_array COMMA VAR neural_check_array RPAREN neural_graph_quad
+    (78) ARRAY -> . VAR neural_assign LBRACE neural_array_pop EXPRESSION neural_array_ver RBRACE
+    (4) VAR -> . ID
+
+    BLOCKEND        reduce using rule 133 (EMPTY -> .)
+    RETURN_K        shift and go to state 69
+    READ_K          shift and go to state 70
+    WRITE_K         shift and go to state 71
+    IF_K            shift and go to state 72
+    WHILE_K         shift and go to state 73
+    DO_K            shift and go to state 74
+    ID              shift and go to state 75
+    GRAPH_K         shift and go to state 76
+
+    RSTATEMENT                     shift and go to state 335
+    STATEMENT                      shift and go to state 193
+    EMPTY                          shift and go to state 194
+    ASSIGN                         shift and go to state 58
+    RETURN                         shift and go to state 59
+    READ                           shift and go to state 60
+    WRITE                          shift and go to state 61
+    IFELSE                         shift and go to state 62
+    WHILE_STMT                     shift and go to state 63
+    DO_WHILE                       shift and go to state 64
+    FUNCTION_CALL                  shift and go to state 65
+    GRAPH                          shift and go to state 66
+    ARRAY                          shift and go to state 67
+    VAR                            shift and go to state 68
+
+state 334
+
+    (96) DO_WHILE -> DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON .
+
+    RETURN_K        reduce using rule 96 (DO_WHILE -> DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON .)
+    READ_K          reduce using rule 96 (DO_WHILE -> DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON .)
+    WRITE_K         reduce using rule 96 (DO_WHILE -> DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON .)
+    IF_K            reduce using rule 96 (DO_WHILE -> DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON .)
+    WHILE_K         reduce using rule 96 (DO_WHILE -> DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON .)
+    DO_K            reduce using rule 96 (DO_WHILE -> DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON .)
+    ID              reduce using rule 96 (DO_WHILE -> DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON .)
+    GRAPH_K         reduce using rule 96 (DO_WHILE -> DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON .)
+    BLOCKEND        reduce using rule 96 (DO_WHILE -> DO_K neural_do_while BLOCKSTART RSTATEMENT BLOCKEND WHILE_K LPAREN H_EXPRESSION RPAREN neural_do_while_end SEMICOLON .)
+
+
+state 335
+
+    (90) ELSE -> neural_else ELSE_K BLOCKSTART RSTATEMENT . BLOCKEND
+
+    BLOCKEND        shift and go to state 336
+
+
+state 336
+
+    (90) ELSE -> neural_else ELSE_K BLOCKSTART RSTATEMENT BLOCKEND .
+
+    RETURN_K        reduce using rule 90 (ELSE -> neural_else ELSE_K BLOCKSTART RSTATEMENT BLOCKEND .)
+    READ_K          reduce using rule 90 (ELSE -> neural_else ELSE_K BLOCKSTART RSTATEMENT BLOCKEND .)
+    WRITE_K         reduce using rule 90 (ELSE -> neural_else ELSE_K BLOCKSTART RSTATEMENT BLOCKEND .)
+    IF_K            reduce using rule 90 (ELSE -> neural_else ELSE_K BLOCKSTART RSTATEMENT BLOCKEND .)
+    WHILE_K         reduce using rule 90 (ELSE -> neural_else ELSE_K BLOCKSTART RSTATEMENT BLOCKEND .)
+    DO_K            reduce using rule 90 (ELSE -> neural_else ELSE_K BLOCKSTART RSTATEMENT BLOCKEND .)
+    ID              reduce using rule 90 (ELSE -> neural_else ELSE_K BLOCKSTART RSTATEMENT BLOCKEND .)
+    GRAPH_K         reduce using rule 90 (ELSE -> neural_else ELSE_K BLOCKSTART RSTATEMENT BLOCKEND .)
+    BLOCKEND        reduce using rule 90 (ELSE -> neural_else ELSE_K BLOCKSTART RSTATEMENT BLOCKEND .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: reduce/reduce conflict in state 172 resolved using rule (FACTOR -> CONSTANT neural_constant)
+WARNING: rejected rule (EMPTY -> <empty>) in state 172

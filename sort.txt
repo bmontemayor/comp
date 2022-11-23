@@ -1,0 +1,45 @@
+program sort;
+
+vars{
+    array int list[5];
+    int len;
+    int x;
+    int y;
+    int z;
+    int aux;
+    int baux;
+    int temp;
+    }
+
+
+main(){
+    list[0] = 5;
+    list[1] = 1;
+    list[2] = 2;
+    list[3] = 4;
+    list[4] = 8;
+    len = 5;
+    x = 0;
+    y = 0;
+
+    while(x < len){
+        z = len - x - 1;
+        while(y < z){
+            aux = list[y];
+            baux = list[y+1];
+            if(aux > baux){
+                temp = list[y];
+                list[y] = list[y+1];
+                list[y+1] = temp;
+            }
+            y = y + 1;
+        }
+        x = x + 1;
+    }
+    write(list[0]);
+    write(list[1]);
+    write(list[2]);
+    write(list[3]);
+    write(list[4]);
+
+}

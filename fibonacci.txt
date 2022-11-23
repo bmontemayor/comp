@@ -1,0 +1,66 @@
+program fibonacci;
+
+vars{
+    int uno;
+    int dos;
+    int tres;
+    }
+
+function int recur(int i){
+    vars{
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+    
+}
+    if(i <= 1){
+        return(i);
+    }
+
+    d = i - 1;
+    e = i - 2;
+    a = recur(d);
+    
+
+    b = recur(e);
+
+    c = a+b;
+    return(c);
+
+}
+
+function int iter(int i){
+    vars{
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+    
+}
+    a = 0;
+    b = 1;
+    c = 0;
+    d = 0;
+
+    while(d < i){
+        c = a + b;
+        a = b;
+        b = c;
+        d = d + 1;
+    }
+
+    return(a);
+
+}
+
+main(){
+    uno = 12;
+    tres = iter(uno);
+    write(tres);
+    dos = recur(uno);
+    write(dos);
+    
+}

@@ -1,0 +1,51 @@
+program factorial;
+
+vars{
+    int n;
+    int result;
+    }
+
+function int recur(int i){
+    vars{
+    int x;
+    int fact;
+    }
+    
+    if(i == 0){
+        return(1);
+    }
+    
+    x = i - 1;
+    fact = recur(x);
+    fact = fact * i;
+    return(fact);
+
+}
+
+function int iter(int i){
+    vars{
+    int x;
+    int fact;
+    
+    }
+    x = 1;
+    fact = 1;
+
+    while(x <= i){
+        fact = fact * x;
+        
+        x = x + 1;
+    }
+
+    return(fact);
+
+}
+
+main(){
+    n = 5;
+    result = iter(n);
+    write(result);
+    result = recur(n);
+    write(result);
+    
+}

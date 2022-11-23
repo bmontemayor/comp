@@ -1,0 +1,71 @@
+program terceraentrega;
+
+vars{
+    int A;
+    int B;
+    int C; 
+    int D;
+    int E;
+    int F;
+    int G;
+    int H;
+    int I;
+    int J;
+    int K;
+    }
+
+
+function float funcionn(int a, int b){
+    vars{
+    int uno;
+    int dos;
+    
+}
+    if(1-1 < dos + uno){
+
+    }
+    else{
+        dos = 2 + 2;
+    }
+    
+    
+    uno = dos + 5 * 7;
+    return(uno);
+}
+
+function void funcion(int a, int b){
+    vars{
+    int diez;
+    float once;
+    int doce;
+    string trece;
+    
+    }
+    diez = doce + 5 * 7;
+}
+
+
+main(){
+    A = B + C * I * H;
+    B = E - F;
+    while(A > B){
+        H = J*K+B;
+        if(B < A){
+            B = H+J;
+            while(B > A+C){
+                B = B-J;
+            }
+        }
+        else{
+            do{
+                A=A+B;
+            } while(A > D);
+        }
+
+    }
+    F=A+B;
+    funcion(1, 2);
+    funcionn(1, 2);
+    write(3 + 5);
+    return(3);
+}
